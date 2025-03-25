@@ -10,6 +10,6 @@ A webapplication fo managing hotels opertion,including room booking,guest servic
 4. other add in feature..
 
 ##Technologies
-#Frontend - Html,Css,Js,Bootstrap
-#Backend - Php 8 version (Laravel 9 version)
-#Database - Mysql 
+1. Frontend - Html,Css,Js,Bootstrap
+2. Backend - Php 8 version (Laravel 9 version)
+3. Database - Mysql 
