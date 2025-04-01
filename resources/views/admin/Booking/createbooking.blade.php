@@ -7,7 +7,11 @@ System Administration
 
 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">New Booking</h1>
+                        <h3 class="mt-4">New Booking Details</h3>
+
+<!-- booking interface codee -->
+
+
 
                     </div>
                 </main>

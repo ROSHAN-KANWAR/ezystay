@@ -24,6 +24,7 @@ Route::get('/admin-dashboard', function () {
 //booking folder all urls
 Route::get('/admin-dashboard/booking-list',[Bookings::class ,'index'])->name('bookinglist');
 Route::get('/admin-dashboard/create-booking',[Bookings::class ,'create'])->name('newbooking');
+
 //booking folder all urls
 
 //room invemtry routes

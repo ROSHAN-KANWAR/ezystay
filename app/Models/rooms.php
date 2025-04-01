@@ -34,6 +34,12 @@ class Rooms extends Model
             'deluxe' => 'Deluxe'
         ];
     }
+    public static function getAvailableRooms($type)
+{
+    return self::where('type', $type)
+              ->where('status', 'available')
+              ->get(['id', 'room_no', 'price']);
+}
 
    static public function getStatusOptions()
     {
