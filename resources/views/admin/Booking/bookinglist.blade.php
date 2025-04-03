@@ -37,7 +37,7 @@ System Administration
                         Showing 1 to 10 of 45 entries
                     </div>
                 </div>
-                
+   
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered" id="bookingsTable">
                         <thead class="table-light">
@@ -56,11 +56,13 @@ System Administration
                             </tr>
                         </thead>
                         <tbody>
+                           
+                             @foreach($bookedrooms as $booked)
                             <tr>
-                                <td>1</td>
-                                <td>BK-1001</td>
-                                <td>John Smith</td>
-                                <td>Deluxe Suite</td>
+                                <td>{{$booked->id}}</td>
+                                <td>{{$booked->booking_id}}</td>
+                                <td>{{$booked->name}}</td>
+                                <td>{{$booked->room_id}}</td>
                                 <td>205</td>
                                 <td>2023-06-15</td>
                                 <td>2023-06-20</td>
@@ -81,157 +83,7 @@ System Administration
                                     </div>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>BK-1002</td>
-                                <td>Sarah Johnson</td>
-                                <td>Standard Room</td>
-                                <td>112</td>
-                                <td>2023-06-18</td>
-                                <td>2023-06-22</td>
-                                <td><span class="badge bg-warning text-dark">Pending</span></td>
-                                <td>$480</td>
-                                <td><span class="badge bg-warning text-dark">Pending</span></td>
-                                <td>
-                                    <div class="d-flex gap-2">
-                                        <button class="btn btn-sm btn-outline-primary">
-                                            <i class="bi bi-pencil"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-secondary">
-                                            <i class="bi bi-printer"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-danger">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>BK-1003</td>
-                                <td>Michael Brown</td>
-                                <td>Executive Suite</td>
-                                <td>301</td>
-                                <td>2023-06-20</td>
-                                <td>2023-06-25</td>
-                                <td><span class="badge bg-primary">Confirmed</span></td>
-                                <td>$1,750</td>
-                                <td><span class="badge bg-success">Paid</span></td>
-                                <td>
-                                    <div class="d-flex gap-2">
-                                        <button class="btn btn-sm btn-outline-primary">
-                                            <i class="bi bi-pencil"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-secondary">
-                                            <i class="bi bi-printer"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-danger">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>BK-1004</td>
-                                <td>Emily Davis</td>
-                                <td>Family Room</td>
-                                <td>118</td>
-                                <td>2023-06-12</td>
-                                <td>2023-06-17</td>
-                                <td><span class="badge bg-danger">Cancelled</span></td>
-                                <td>$900</td>
-                                <td><span class="badge bg-secondary">Refunded</span></td>
-                                <td>
-                                    <div class="d-flex gap-2">
-                                        <button class="btn btn-sm btn-outline-primary">
-                                            <i class="bi bi-pencil"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-secondary">
-                                            <i class="bi bi-printer"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-danger">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>BK-1005</td>
-                                <td>Robert Wilson</td>
-                                <td>Standard Room</td>
-                                <td>107</td>
-                                <td>2023-06-16</td>
-                                <td>2023-06-19</td>
-                                <td><span class="badge bg-success">Checked In</span></td>
-                                <td>$360</td>
-                                <td><span class="badge bg-success">Paid</span></td>
-                                <td>
-                                    <div class="d-flex gap-2">
-                                        <button class="btn btn-sm btn-outline-primary">
-                                            <i class="bi bi-pencil"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-secondary">
-                                            <i class="bi bi-printer"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-danger">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <!-- Additional sample rows -->
-                            <tr>
-                                <td>6</td>
-                                <td>BK-1006</td>
-                                <td>Lisa Taylor</td>
-                                <td>Deluxe Suite</td>
-                                <td>208</td>
-                                <td>2023-06-22</td>
-                                <td>2023-06-27</td>
-                                <td><span class="badge bg-primary">Confirmed</span></td>
-                                <td>$1,250</td>
-                                <td><span class="badge bg-success">Paid</span></td>
-                                <td>
-                                    <div class="d-flex gap-2">
-                                        <button class="btn btn-sm btn-outline-primary">
-                                            <i class="bi bi-pencil"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-secondary">
-                                            <i class="bi bi-printer"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-danger">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>7</td>
-                                <td>BK-1007</td>
-                                <td>David Miller</td>
-                                <td>Executive Suite</td>
-                                <td>305</td>
-                                <td>2023-06-25</td>
-                                <td>2023-06-30</td>
-                                <td><span class="badge bg-primary">Confirmed</span></td>
-                                <td>$1,750</td>
-                                <td><span class="badge bg-success">Paid</span></td>
-                                <td>
-                                    <div class="d-flex gap-2">
-                                        <button class="btn btn-sm btn-outline-primary">
-                                            <i class="bi bi-pencil"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-secondary">
-                                            <i class="bi bi-printer"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-danger">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
+@endforeach
                         </tbody>
                     </table>
                 </div>

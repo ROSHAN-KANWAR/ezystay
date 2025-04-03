@@ -7,16 +7,22 @@ System Administration
 
 <main>
     <div class="container-fluid px-4">
-           
-<!-- booking interface codee -->
+    @if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
 
+           <form action="{{ route('booking_store') }}" method="POST">
+<!-- booking interface codee -->
+@csrf
 <div class="row">
     <!-- guest information -->
     <div class="col-md-6">
 
-    <div class="container mt-4">
-    <h4 class="mb-4">Guest Information</h4>
-    <form id="guestInfoForm">
+       <div class="container mt-2">
+       <h4 class="mb-4">Guest Information</h4>
+
         <!-- Row 1: Name and Email -->
         <div class="row mb-3">
             <div class="col-md-6 mb-3 mb-md-0">
@@ -48,7 +54,7 @@ System Administration
                 <select class="form-select" id="documentType" name="document_type" required>
                     <option value="" selected disabled>Select document type</option>
                     <option value="passport">Passport</option>
-                    <option value="national_id">Aadhaar Card</option>
+                    <option value="aadhar card">Aadhaar Card</option>
                     <option value="driving_license">Driving License</option>
                     <option value="other">Other</option>
                 </select>
@@ -59,17 +65,17 @@ System Administration
             </div>
         </div>
 
-    </form>
-</div>
+     </div>
 
     </div>
+     <!--end guest information -->
     <!-- room available details section -->
     <div class="col-md-6">
-<!-- room finder -->
-    <div class="container-fuild mt-4">
-    <h4 class="mb-2">Available Rooms:</h4>
-    <!-- Desktop Layout - Columns -->
-    <div class="row">
+      <!-- room finder -->
+       <div class="container-fuild mt-2">
+       <h4 class="mb-2">Available Rooms:</h4>
+       <!-- Desktop Layout - Columns -->
+       <div class="row">
         @foreach($availableRooms as $type => $rooms)
                 <div class="col-md-6 col-lg-4 col-sm-6 mb-md-2 mb-2">
                     <div class="card h-100 border-primary">
@@ -79,10 +85,11 @@ System Administration
                         <div class="card-body p-2 d-flex flex-wrap">
                         @foreach($rooms as $room)
                                 <button type="button" 
-                                        class="btn btn-sm btn-success m-1"
+                                      class="btn btn-sm btn-success m-1"
                                         onclick="selectRoom({{ $room->id }},{{ $room->price }},'{{ $room->type }}','{{ $room->room_no }}','{{ $room->floor }}')"
                          data-room-id="{{ $room->id }}">
                              {{ $room->room_no }}
+                             <input type=""  class="form-control" hidden value=" {{ $room->id}}" readonly  name="room_id" id="selected_room_id_no" >
                                 </button>
                             @endforeach
                         </div>
@@ -91,21 +98,23 @@ System Administration
             @endforeach
         
     </div>
+    
+    <!--end room available details section -->
 </div>
 <!-- room finder -->
 
 <div class="row">
     <div class="col-md-4">   
                 <label for="guestAddress" class="form-label">Room No.</label>
-               <input type="text"  class="form-control" disabled  name="room_id" id="selected_room_id" >
+               <input type="text"  class="form-control" value="" readonly   id="selected_room_id" >
     </div>
     <div class="col-md-4">   
                 <label for="guestAddress" class="form-label">Room Floor.</label>
-              <input type="text" disabled  class="form-control"  name="room_floor" id="selected_room_floor">  
+              <input type="text" readonly  class="form-control" id="selected_room_floor">  
             </div>
     <div class="col-md-4">   
                 <label for="guestAddress" class="form-label">Room Type.</label>
-              <input type="" disabled  name="room_type"  class="form-control" id="selected_room_type">
+              <input type="" readonly   class="form-control" id="selected_room_type">
   </div>
     </div>
     <!-- room finder -->
@@ -119,38 +128,38 @@ System Administration
     <div class="row">
         <!-- date checkin-checkout -->
         <div class="col-md-12">
-        <div class="container-fluid mt-4">
+        <div class="container-fluid mt-1">
             
     <h4 class="mb-2">Check-in & Payment Details:</h4>
     <div class="row">
         <div class="col-md-3">
             <div class="mb-3">
                 <label for="checkin_date" class="form-label">Check-In Date</label>
-                <input type="date" class="form-control" id="checkin_date" name="checkin_date" required>
+                <input type="date" class="form-control" id="checkin_date" name="check_in_date" required>
             </div>
         </div>
         <div class="col-md-3">
             <div class="mb-3">
                 <label for="checkout_date" class="form-label">Check-Out Date</label>
-                <input type="date" class="form-control" id="checkout_date" name="checkout_date" required>
+                <input type="date" class="form-control" id="checkout_date" name="check_out_date" required>
             </div>
         </div>
         <div class="col-md-3">
             <div class="mb-3">
                 <label class="form-label">Room Price(Rs.)</label>
-                <input type="text" readonly value="" class="form-control bg-warning font-weight-bolder text-dark"  name="room_price" id="selected_room_price">  
+                <input type="text" readonly value="" class="form-control bg-warning font-weight-bolder text-dark"  id="selected_room_price">  
             </div>
         </div>
         <div class="col-md-3">
             <div class="mb-3">
                 <label class="form-label">Number of Nights</label>
-                <input type="text" class="form-control" id="nights_count" readonly>
+                <input type="text" class="form-control" name="no_of_nights" id="nights_count" readonly>
             </div>
         </div>
         <div class="row mb-3 sub">
         <div class="col-md-6">
             <label class="form-label">Subtotal</label>
-            <input type="text" class="form-control" id="subtotal" readonly>
+            <input type="text" class="form-control" name="subtotal" id="subtotal" readonly>
         </div>
         <div class="col-md-6">
             <label for="payment_status" class="form-label">Payment Method</label>
@@ -161,38 +170,45 @@ System Administration
                 <option value="card">Credit/Debit Card</option>
             </select>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 mt-2">
             <label for="discount" class="form-label">Discount (if any)</label>
             <div class="input-group">
                 <input type="number" class="form-control" id="discount" name="discount" min="0" value="0">
                 <span class="input-group-text">%</span>
             </div>
         </div>
-        <div class="col-md-6">
+           <div class="col-md-3 mt-2">
+            <label for="discount" class="form-label">Adv Payment</label>
+            <div class="input-group">
+                <input type="number" class="form-control" id="advance" name="advance_payment" value="0">
+                <span class="input-group-text">Rs</span>
+            </div>
+        </div>
+        <div class="col-md-3 mt-2">
             <label class="form-label">Net Payable</label>
-            <input type="text" class="form-control" id="net_payable" readonly>
+            <input type="text" class="form-control" name="net_amount" id="net_payable" readonly>
         </div>
         <!-- end sub row -->
     </div>
         <!-- end row payment and checking -->
     </div>
    
-</div>
-
-        <!--end date checkin-checkout -->
-        
-</div>
-
-
-<!-- booking interface codee -->
-
-<!-- View -->
-
+</div> 
+<!-- Form Actions -->
+                        <div class="d-grid gap-2 d-md-flex justify-content-center">
+                            <button type="submit" class="col-md-6 btn btn-primary me-md-2">
+                                <i class="bi bi-save"></i> Save Room
+                            </button>
+                            <a href="{{ route('allroom') }}" class="btn btn-secondary">
+                                <i class="bi bi-x-circle"></i> Cancel
+                            </a>
+                        </div>
+</form>
 
 <!-- Hidden form field -->
 @push('scripts')
 <script>
-    let n=null
+    
 function selectRoom(roomId,roomPrice,roomType, roomNo,roomfloor) {
     // Update hidden field
     
@@ -226,9 +242,7 @@ document.addEventListener('DOMContentLoaded', function() {
     checkinDate.value = today;
     
     const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
     checkoutDate.min = tomorrow.toISOString().split('T')[0];
-    checkoutDate.value = tomorrow.toISOString().split('T')[0];
     
     // Calculate initial nights
     calculateNights();
@@ -271,6 +285,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const nightsCountInput = document.getElementById('nights_count');
     const subtotalInput = document.getElementById('subtotal');
     const discountInput = document.getElementById('discount');
+    const advanceInput = document.getElementById('advance');
     const netPayableInput = document.getElementById('net_payable');
 
     // Add event listeners to all relevant inputs
@@ -278,6 +293,7 @@ document.addEventListener('DOMContentLoaded', function() {
     checkoutDateInput.addEventListener('change', calculateAmounts);
     roomPriceInput.addEventListener('input', calculateAmounts);
     discountInput.addEventListener('input', calculateAmounts);
+    advanceInput.addEventListener('input', calculateAmounts);
 
     function calculateAmounts() {
         // Get the values from inputs
@@ -285,6 +301,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const checkoutDate = new Date(checkoutDateInput.value);
         const roomPrice = parseFloat(roomPriceInput.value) || 0;
         const discount = parseFloat(discountInput.value) || 0;
+        const advance = parseFloat(advanceInput.value) || 0;
 
         // Calculate number of nights
         let nightsCount = 0;
@@ -300,7 +317,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Calculate discount amount and net payable
         const discountAmount = subtotal * (discount / 100);
-        const netPayable = subtotal - discountAmount;
+        const netPayable = subtotal - discountAmount-advance;
         
         // Update the net payable field
         netPayableInput.value = netPayable.toFixed(2);
