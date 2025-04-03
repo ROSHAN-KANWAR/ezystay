@@ -13,10 +13,10 @@ class Bookings extends Controller
   
     public function create()
     {
-        $availableRooms = Rooms::available()->select('id', 'room_no', 'type', 'price') // Explicitly select fields
+        $availableRooms = Rooms::available()->select('id', 'room_no', 'type', 'price','floor') // Explicitly select fields
         ->orderBy('type')
         ->orderBy('room_no')
-        ->get(['id','room_no','type','price'])->groupBy('type'); ;
+        ->get(['id','room_no','type','price','floor'])->groupBy('type'); ;
         
 
         return view('admin.booking.createbooking',compact('availableRooms'));
