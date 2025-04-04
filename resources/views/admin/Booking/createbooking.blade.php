@@ -55,7 +55,7 @@ System Administration
                     <option value="" selected disabled>Select document type</option>
                     <option value="passport">Passport</option>
                     <option value="aadhar card">Aadhaar Card</option>
-                    <option value="driving_license">Driving License</option>
+                    <option value="driver_license">Driving License</option>
                     <option value="other">Other</option>
                 </select>
             </div>
@@ -130,7 +130,7 @@ System Administration
         <div class="col-md-12">
         <div class="container-fluid mt-1">
             
-    <h4 class="mb-2">Check-in & Payment Details:</h4>
+    <h5 class="mb-2">Check-in & Payment Details:(CGST-6% & SGST-6% Included)</h5>
     <div class="row">
         <div class="col-md-3">
             <div class="mb-3">
@@ -167,20 +167,20 @@ System Administration
                 <option value="" selected disabled>Select payment method</option>
                 <option value="cash">Cash</option>
                 <option value="online">Online Payment</option>
-                <option value="card">Credit/Debit Card</option>
+                <option value="debit/credit card">Credit/Debit Card</option>
             </select>
         </div>
         <div class="col-md-3 mt-2">
             <label for="discount" class="form-label">Discount (if any)</label>
             <div class="input-group">
-                <input type="number" class="form-control" id="discount" name="discount" min="0" value="0">
+                <input type="number" class="form-control" id="discount" name="discount" min="0" value="">
                 <span class="input-group-text">%</span>
             </div>
         </div>
            <div class="col-md-3 mt-2">
             <label for="discount" class="form-label">Adv Payment</label>
             <div class="input-group">
-                <input type="number" class="form-control" id="advance" name="advance_payment" value="0">
+                <input type="number" class="form-control" id="advance" name="advance_payment" value="">
                 <span class="input-group-text">Rs</span>
             </div>
         </div>
@@ -302,7 +302,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const roomPrice = parseFloat(roomPriceInput.value) || 0;
         const discount = parseFloat(discountInput.value) || 0;
         const advance = parseFloat(advanceInput.value) || 0;
-
+        
         // Calculate number of nights
         let nightsCount = 0;
         if (checkinDate && checkoutDate && checkoutDate > checkinDate) {
@@ -312,12 +312,13 @@ document.addEventListener('DOMContentLoaded', function() {
         nightsCountInput.value = nightsCount;
 
         // Calculate subtotal
-        const subtotal = roomPrice * nightsCount;
+        const subtotal = roomPrice * nightsCount +(roomPrice * nightsCount)*(6/100)+(roomPrice * nightsCount)*(6/100);
         subtotalInput.value = subtotal.toFixed(2);
-
+         
         // Calculate discount amount and net payable
         const discountAmount = subtotal * (discount / 100);
         const netPayable = subtotal - discountAmount-advance;
+        
         
         // Update the net payable field
         netPayableInput.value = netPayable.toFixed(2);

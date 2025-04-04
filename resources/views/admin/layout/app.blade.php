@@ -40,7 +40,7 @@ System Administration
                                 <div class="font-weight-bold sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                New Booking
                             </a>
-                            <a class="nav-link" href="{{Route('bookinglist')}}">
+                            <a class="nav-link" href="{{Route('checkot_booking')}}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                Check-out
                             </a>

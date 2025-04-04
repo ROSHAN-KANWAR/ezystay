@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Log;
 class Bookings extends Controller
 {
     public function index(){
-        $bookedrooms = booking::all();
+        $bookedrooms = booking::with('room')->get();
         return view('admin.Booking.bookinglist',compact('bookedrooms'));
     }
   
@@ -21,7 +21,7 @@ class Bookings extends Controller
         $availableRooms = Rooms::available()->select('id', 'room_no', 'type', 'price','floor') // Explicitly select fields
         ->orderBy('type')
         ->orderBy('room_no')
-        ->get(['id','room_no','type','price','floor'])->groupBy('type'); ;
+        ->get(['id','room_no','type','price','floor'])->groupBy('type'); 
         return view('admin.booking.createbooking',compact('availableRooms'));
     }
   
@@ -38,17 +38,10 @@ class Bookings extends Controller
             $booking = Booking::create($bookingData);
             $room->update(['status' => 'occupied']);
 
-            return redirect()->route('allroom');
+            return redirect()->route('bookinglist');
     }
             catch (\Exception $e) {
-                // Rollback transaction on error
-                DB::rollBack();
-                
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Failed to create booking',
-                    'error' => $e->getMessage()
-                ], 500);
+               return redirect()->back()->with('error', 'Please Some Field');
             }
     }
         private function generateBookingId()
@@ -58,8 +51,44 @@ class Bookings extends Controller
             
             return "INV" . $prefix . $random;
         }
-    
+    public function invoice($booking_id){
+      
+        $booking = Booking::with('room')->where('booking_id', $booking_id)// Additional condition
+        ->first();
+        $today = now()->format('d-m-Y');
+     
+        $pr = $booking->room->price;
+        $nigh = $booking->no_of_nights;
+      
+        $total = $pr*$nigh + $pr*$nigh*(12/100);
+        $cgst = $total*(6/100);
+        $sgst = $total* (6/100); 
+        return view('admin.booking.invoice',compact('booking','today','cgst','sgst' ,'total'));
+    }
+    //checkout controller
+    public function checkout_index(){
+  
+        return view('admin.booking.checkoutbooking');
+    }
+    public function checkout_search(Request $request){
+        $request->validate(['search' => 'required']);
+        $booking = Booking::where(function($query) use ($request) {
+            $query->where('booking_id', $request->search)
+                  ->orWhereHas('room', function($q) use ($request) {
+                      $q->where('room_no', $request->search)
+                        ->where('status', 'occupied');
+                  });
+        })
+        ->with(['room'])
+        ->first();
+        
+    if (!$booking) {
+        return back()->with('error', 'No occupied room or active booking found!');
+    }
+        return view('admin.booking.checkoutbooking' ,compact('booking'));
+    }
     } 
+    
         
        
 

@@ -7,7 +7,7 @@ System Administration
 
 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Booking List</h1>
+                        <h4 class="mt-4">Booking List</h4>
 <!-- new booking code -->
 
     <div class="container-fluid py-4">
@@ -45,13 +45,14 @@ System Administration
                                 <th>#</th>
                                 <th>Booking ID</th>
                                 <th>Guest Name</th>
+                                <th>Guest Phone</th>
                                 <th>Room Type</th>
                                 <th>Room No.</th>
-                                <th>Check-In</th>
+                                <th>Sub-Total</th>
                                 <th>Check-Out</th>
-                                <th>Status</th>
-                                <th>Total Price</th>
-                                <th>Payment</th>
+                                <th>Adv Payment</th>
+                                <th>Payable</th>
+                                
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -61,25 +62,20 @@ System Administration
                             <tr>
                                 <td>{{$booked->id}}</td>
                                 <td>{{$booked->booking_id}}</td>
-                                <td>{{$booked->name}}</td>
-                                <td>{{$booked->room_id}}</td>
-                                <td>205</td>
-                                <td>2023-06-15</td>
-                                <td>2023-06-20</td>
-                                <td><span class="badge bg-success">Checked In</span></td>
-                                <td>$1,250</td>
-                                <td><span class="badge bg-success">Paid</span></td>
+                                <td>{{ucfirst($booked->name)}}</td>
+                                <td>{{ucfirst($booked->phone)}}</td>
+                                <td>{{ucfirst($booked->room->type)}}</td>
+                                <td>{{$booked->room->room_no}}</td>
+                                <td>{{$booked->subtotal}}</td>
+                                <td>{{$booked->check_out_date}}</td>
+                                <td>{{$booked->advance_payment}}</td>
+                                <td><span class="bg-success text-white rounded-1 p-1">{{$booked->net_amount}}</span></td>
                                 <td>
                                     <div class="d-flex gap-2">
-                                        <button class="btn btn-sm btn-outline-primary" title="Edit">
-                                            <i class="bi bi-pencil"></i>
+                                        <button  class="btn btn-sm btn-outline-primary" data-booking-id="{{ $booked->id }}" title="Edit">
+                                           <a href="{{route('booking_invoice' ,$booked->booking_id)}}"><i class="bi bi-pencil">Print</i></a> 
                                         </button>
-                                        <button class="btn btn-sm btn-outline-secondary" title="Print">
-                                            <i class="bi bi-printer"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-danger" title="Delete">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
+                                        
                                     </div>
                                 </td>
                             </tr>
@@ -105,6 +101,69 @@ System Administration
         </div>
     </div>
 
+    
+<!-- Print Modal -->
+<div class="modal fade" id="printModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Booking Invoice</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="invoiceContent">
+                <!-- Invoice will be loaded here via AJAX -->
+                <div class="text-center py-4">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <p>Loading invoice...</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="printInvoiceBtn">
+                    <i class="fas fa-print"></i> Print
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@push('scripts')
+<script>
+// Add this to your view or JS file
+$(document).ready(function() {
+    // Handle print button click
+    $('.print-booking').click(function() {
+        var bookingId = $(this).data('booking-id');
+        var url = "{{ route('booking_invoice', ':id') }}".replace(':id', bookingId);
+        
+        // Load invoice via AJAX
+        $.get(url, function(data) {
+            $('#invoiceContent').html(data);
+            $('#printModal').modal('show');
+        });
+    });
+
+    // Print button in modal
+    $('#printInvoiceBtn').click(function() {
+        var printContent = $('#invoiceContent').html();
+        var originalContent = $('body').html();
+        
+        $('body').html(printContent);
+        window.print();
+        $('body').html(originalContent);
+        $('#printModal').modal('show');
+    });
+});
+</script>
+@endpush
+
+
+@push('scripts')
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
@@ -134,7 +193,7 @@ System Administration
             document.querySelector('.text-muted').textContent = showingText;
         });
     </script>
-
+@endpush
 
                     </div>
                 </main>

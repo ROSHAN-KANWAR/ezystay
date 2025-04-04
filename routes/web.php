@@ -25,9 +25,10 @@ Route::get('/admin-dashboard', function () {
 Route::get('/admin-dashboard/booking-list',[Bookings::class ,'index'])->name('bookinglist');
 Route::get('/admin-dashboard/create-booking',[Bookings::class ,'create'])->name('newbooking');
 Route::post('/admin-dashboard/create-booking',[Bookings::class ,'store'])->name('booking_store');
-
+Route::get('/admin-dashboard/checkout-booking',[Bookings::class ,'checkout_index'])->name('checkot_booking');
+Route::post('/admin-dashboard/checkout-booking/search', [Bookings::class ,'checkout_search'])->name('checkout_search');
 //booking folder all urls
-
+Route::get('/admin-dashboard/create-booking/{booking}/invoice', [Bookings::class ,'invoice'])->name('booking_invoice');
 //room invemtry routes
 Route::get('/admin-dashboard/add-room',[RoomsController::class ,'Addrooms'])->name('addroom');
 Route::post('/admin-dashboard/create-room',[RoomsController::class ,'store'])->name('store');
