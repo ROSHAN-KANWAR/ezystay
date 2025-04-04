@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 class dashboardController extends Controller
 {
     public function index(){
+        if(auth()->check()){
+            return redirect()->route('dashboard');
+        }
         return view('welcome');
     }
     public function dashboard(){
