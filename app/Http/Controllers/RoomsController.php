@@ -25,8 +25,7 @@ class RoomsController extends Controller
     //Store a newly created resource in storage.
      
     public function store(Request $request)
-    {
-       
+    {   
       $validated = $request->validate([
         'room_no' => 'required|unique:rooms|max:10',
         'price' => 'required|numeric|min:0',
@@ -40,5 +39,25 @@ class RoomsController extends Controller
     Rooms::create($validated);
         return redirect()->route('allroom')
             ->with('success', 'Room created successfully.');
+    }
+    public function edit_room($room_id){
+     
+      $room = Rooms::find($room_id);
+      return view('admin.rooms.updateroom', compact('room'));
+    }
+    public function update_room($id, Request $request){
+   try{
+
+    $updata =$request->all();
+    unset($updata['_token']);
+    unset($updata['_method']);
+    Rooms::where('id',$id)->update($updata);
+    return redirect()->route('allroom')
+    ->with('success', 'Room updated successfully.');
+   }
+ catch (\Exception $e) {
+               return redirect()->back()->with('error', $e->getMessage());
+            }
+    
     }
 }

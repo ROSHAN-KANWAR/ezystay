@@ -41,7 +41,7 @@ class Bookings extends Controller
             return redirect()->route('bookinglist');
     }
             catch (\Exception $e) {
-               return redirect()->back()->with('error', 'Please Some Field');
+               return redirect()->back()->with('error', $e->getMessage());
             }
     }
         private function generateBookingId()
@@ -74,10 +74,12 @@ class Bookings extends Controller
         $request->validate(['search' => 'required']);
         $booking = Booking::where(function($query) use ($request) {
             $query->where('booking_id', $request->search)
+                  ->where('status', 'checked_in')
                   ->orWhereHas('room', function($q) use ($request) {
                       $q->where('room_no', $request->search)
                         ->where('status', 'occupied');
-                  });
+                  })
+                  ->where('status', 'checked_in'); // This ensures both cases require checked_in status
         })
         ->with(['room'])
         ->first();
@@ -85,7 +87,24 @@ class Bookings extends Controller
     if (!$booking) {
         return back()->with('error', 'No occupied room or active booking found!');
     }
-        return view('admin.booking.checkoutbooking' ,compact('booking'));
+        return view('admin.booking.checkout_result' ,compact('booking'));
+    }
+
+    //checkou complete 
+    public function checkout($bookingId){
+        $booking = Booking::where('booking_id', $bookingId)
+        ->where('status', 'checked_in')
+        ->firstOrFail();
+
+    // Update booking status
+    $booking->update(['status' => 'checked_out']);
+    $booking->update(['payment_mode' => 'Paid']);
+    // Update room status
+    $booking->room->update(['status' => 'Maintenance']);
+
+    // You might want to add payment processing here
+   
+    return redirect()->route('bookinglist');
     }
     } 
     

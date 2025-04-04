@@ -24,10 +24,13 @@ class Booking extends Model
         'no_of_nights',
         'subtotal',
         'payment_status',
+        'payment_mode',
         'discount',
         'advance_payment',
         'net_amount',
-        'special_requests'
+        'special_requests',
+        'status'
+
     ];
 
     protected static function boot()
@@ -54,8 +57,4 @@ class Booking extends Model
         return $this->belongsTo(Rooms::class);
     }
 
-    public function payments()
-    {
-        return $this->hasMany(Payment::class);
-    }
 }

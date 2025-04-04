@@ -173,14 +173,14 @@ System Administration
         <div class="col-md-3 mt-2">
             <label for="discount" class="form-label">Discount (if any)</label>
             <div class="input-group">
-                <input type="number" class="form-control" id="discount" name="discount" min="0" value="">
+                <input type="number" class="form-control" id="discount" name="discount" min="0" value="2">
                 <span class="input-group-text">%</span>
             </div>
         </div>
            <div class="col-md-3 mt-2">
             <label for="discount" class="form-label">Adv Payment</label>
             <div class="input-group">
-                <input type="number" class="form-control" id="advance" name="advance_payment" value="">
+                <input type="number" class="form-control" id="advance" name="advance_payment" value="0">
                 <span class="input-group-text">Rs</span>
             </div>
         </div>

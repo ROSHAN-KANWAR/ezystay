@@ -6,20 +6,20 @@ System Administration
 
 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Dashboard</h1>
+                        <h4 class="mt-4">Dashboard</h1>
 
                         <div class="container mt-4">
     <div class="container-fluid py-4 bg-light">
         <div class="row g-4">
             <!-- Occupied Rooms Box -->
             <div class="col-md-4">
-                <div class="card border-start border-info border-4 shadow-sm h-100">
+                <div class="card border-start border-info border-4 shadow-sm">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <h6 class="text-uppercase text-muted mb-2">Room Occupancy</h6>
-                                <h2 class="mb-1">45/100</h2>
-                                <p class="mb-0 text-muted">45 Booked | 55 Available</p>
+                                <h6 class="mb-1">{{$room->where('status','occupied')->count()}}/{{$room->count()}}</h2>
+                                <p class="mb-0 text-muted">{{$room->where('status','occupied')->count()}} Booked | {{$room->where('status','available')->count()}} Available</p>
                             </div>
                             <div class="bg-info bg-opacity-10 p-3 rounded">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-door-closed text-info" viewBox="0 0 16 16">
@@ -28,24 +28,20 @@ System Administration
                                 </svg>
                             </div>
                         </div>
-                        <div class="mt-3">
-                            <div class="progress" style="height: 10px;">
-                                <div class="progress-bar bg-info" role="progressbar" style="width: 45%;" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
+                       
                     </div>
                 </div>
             </div>
 
             <!-- Active Bookings Box -->
             <div class="col-md-4">
-                <div class="card border-start border-warning border-4 shadow-sm h-100">
+                <div class="card border-start border-warning border-4 shadow-sm">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <h6 class="text-uppercase text-muted mb-2">Today's Check-outs</h6>
-                                <h2 class="mb-1">12</h2>
-                                <p class="mb-0 text-muted">Active Bookings: 78</p>
+                                <h6 class="mb-1">12</h2>
+                                <p class="mb-0 text-muted">Active Bookings: {{$room->where('status','occupied')->count()}}</p>
                             </div>
                             <div class="bg-warning bg-opacity-10 p-3 rounded">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-calendar-check text-warning" viewBox="0 0 16 16">
@@ -54,22 +50,20 @@ System Administration
                                 </svg>
                             </div>
                         </div>
-                        <div class="mt-3">
-                            <span class="badge bg-warning bg-opacity-10 text-warning">Check-ins today: 8</span>
-                        </div>
+                       
                     </div>
                 </div>
             </div>
 
             <!-- Revenue Box -->
             <div class="col-md-4">
-                <div class="card border-start border-success border-4 shadow-sm h-100">
+                <div class="card border-start border-success border-4 shadow-sm">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <h6 class="text-uppercase text-muted mb-2">Revenue</h6>
-                                <h2 class="mb-1">Rs 12,450</h2>
-                                <p class="mb-0 text-muted">Today: Rs 1,280</p>
+                                <h6 class="mb-1">Rs {{number_format($bookedrooms->sum('subtotal'),2)}}</h2>
+                                <p class="mb-0 text-muted">One Weeks : Rs {{$todayamount}}</p>
                             </div>
                             <div class="bg-success bg-opacity-10 p-3 rounded">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-currency-dollar text-success" viewBox="0 0 16 16">
@@ -77,9 +71,7 @@ System Administration
                                 </svg>
                             </div>
                         </div>
-                        <div class="mt-3">
-                            <span class="badge bg-success bg-opacity-10 text-success">+12% from yesterday</span>
-                        </div>
+                       
                     </div>
                 </div>
             </div>
@@ -92,120 +84,82 @@ System Administration
     <!-- Widget 5: Today's Revenue -->
     
                         <!-- small box show number of data -->
-                        <div class="row">
-                     
-                        <div class="container-fluid py-4">
+                        
+    <div class="container-fluid py-4">
         <div class="card shadow-sm">
-            <div class="card-header bg-white">
-                <h5 class="mb-0">Room Bookings</h5>
+            <div class="card-header bg-white d-flex justify-content-between align-items-center flex-wrap">
+                <h5 class="mb-2 mb-md-0">Booking Management</h5>
+                <div class="d-flex gap-2 flex-wrap">
+                </div>
             </div>
             <div class="card-body">
+               
+   
                 <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
+                    <table class="table table-hover table-bordered" id="bookingsTable">
+                        <thead class="table-light">
                             <tr>
                                 <th>#</th>
+                                <th>Booking ID</th>
                                 <th>Guest Name</th>
+                                <th>Guest Phone</th>
                                 <th>Room Type</th>
                                 <th>Room No.</th>
-                                <th>Status</th>
-                                <th>Price</th>
+                                <th>Remain-Amount</th>
                                 <th>Check-Out</th>
-                                <th>Action</th>
+                                <th>Mode</th>
+                                <th>Status</th>
+                                
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
+                           
+                             @foreach($bookedrooms as $booked)
                             <tr>
-                                <td>1</td>
-                                <td>John Smith</td>
-                                <td>Deluxe Suite</td>
-                                <td>205</td>
-                                <td><span class="badge bg-success">Checked In</span></td>
-                                <td>$250/night</td>
-                                <td>2023-06-20</td>
+                                <td>{{$booked->id}}</td>
+                                <td>{{$booked->booking_id}}</td>
+                                <td>{{ucfirst($booked->name)}}</td>
+                                <td>{{ucfirst($booked->phone)}}</td>
+                                <td>{{ucfirst($booked->room->type)}}</td>
+                                <td>{{$booked->room->room_no}}</td>
+                                <td>{{$booked->net_amount}}</td>
+                                <td>{{$booked->check_out_date}}</td>
                                 <td>
-                                    <button class="btn btn-sm btn-outline-primary">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">
-                                            <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
-                                            <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/>
-                                        </svg> Print
-                                    </button>
+                            @if($booked->status === 'checked_in')
+                                <span class="badge bg-warning text-dark">{{ $booked->status }}</span>
+                            @elseif($booked->status === 'checked_out')
+                                <span class="badge bg-success">{{ $booked->status }}</span>
+                            @endif
+</td>
+                                <td>
+                                @if($booked->payment_mode === 'incomplete')
+                                <span class="badge bg-warning text-dark">{{$booked->payment_mode}}</span>
+                            @elseif($booked->payment_mode === 'paid')
+                                <span class="badge bg-success">{{$booked->payment_mode}}</span>
+                            @endif
+
+ <td>
+                                    <div class="d-flex gap-2">
+                                        <button  class="btn btn-sm btn-outline-primary" data-booking-id="{{ $booked->id }}" title="Edit">
+                                           <a href="{{route('booking_invoice' ,$booked->booking_id)}}"><i class="bi bi-pencil">Print</i></a> 
+                                        </button>
+                                        
+                                    </div>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Sarah Johnson</td>
-                                <td>Standard Room</td>
-                                <td>112</td>
-                                <td><span class="badge bg-warning text-dark">Pending</span></td>
-                                <td>$120/night</td>
-                                <td>2023-06-22</td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-primary">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">
-                                            <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
-                                            <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/>
-                                        </svg> Print
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Michael Brown</td>
-                                <td>Executive Suite</td>
-                                <td>301</td>
-                                <td><span class="badge bg-primary">Confirmed</span></td>
-                                <td>$350/night</td>
-                                <td>2023-06-25</td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-primary">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">
-                                            <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
-                                            <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/>
-                                        </svg> Print
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Emily Davis</td>
-                                <td>Family Room</td>
-                                <td>118</td>
-                                <td><span class="badge bg-danger">Cancelled</span></td>
-                                <td>$180/night</td>
-                                <td>2023-06-17</td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-primary">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">
-                                            <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
-                                            <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/>
-                                        </svg> Print
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>Robert Wilson</td>
-                                <td>Standard Room</td>
-                                <td>107</td>
-                                <td><span class="badge bg-success">Checked In</span></td>
-                                <td>$120/night</td>
-                                <td>2023-06-19</td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-primary">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">
-                                            <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
-                                            <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/>
-                                        </svg> Print
-                                    </button>
-                                </td>
-                            </tr>
+@endforeach
                         </tbody>
                     </table>
                 </div>
+
+             
             </div>
         </div>
     </div>
+
+                      <!-- small box show number of data -->
+                     
 
                     </div>
                 </main>

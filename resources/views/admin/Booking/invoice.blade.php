@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hotel Invoice</title>
+    <title>Hotel Invoice Bill</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -79,6 +79,14 @@
                 display: none;
             }
         }
+        h4{
+            text-align: center;
+            margin-top: 20px;
+            font-style: italic;
+            background:red;  
+            padding:2px 0;
+            color:white;
+        }
     </style>
 </head>
 <body>
@@ -90,7 +98,7 @@
         <div class="hotel-info">Contact: 9001254887</div>
         <div class="hotel-info">Reg.No.: 078041/MKS/BSS/2521 | GST No.: 22BDKD555D5DSX</div>
     </div>
-
+    <h4 id="bill" >{{strtoupper($booking->status)}} BILL</h4>
     <div class="invoice-details">
         <div>
             <strong>Invoice Number:</strong> {{$booking->booking_id}}<br>
@@ -108,7 +116,7 @@
         <div><strong>Address:</strong>  {{strtoupper($booking->address)}} | <strong>Ph.:</strong> {{strtoupper($booking->phone)}}</div>
         <div>
             <strong>Arrival Date:</strong>  {{$booking->created_at->toDateString()}}| <strong>Time:</strong> {{$booking->created_at->format('H:i:s')}}<br>
-            <strong>Departure Date:</strong> {{$booking->check_out_date}}| <strong>Time:</strong> ....
+            <strong>Departure Date:</strong> {{$booking->check_out_date}}| <strong>Time:</strong> {{$booking->updated_at->format('H:i:s')}}
         </div>
     </div>
 
@@ -138,7 +146,7 @@
             </tr>
             <tr class="total-row">
                 <td colspan="4">Total Amount</td>
-                <td>{{$total}}</td>
+                <td>{{$total}} - {{strtoupper($booking->payment_mode)}}</td>
             </tr>
         </tbody>
     </table>

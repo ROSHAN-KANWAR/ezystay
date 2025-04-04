@@ -48,10 +48,10 @@ System Administration
                                 <th>Guest Phone</th>
                                 <th>Room Type</th>
                                 <th>Room No.</th>
-                                <th>Sub-Total</th>
+                                <th>Remain-Amount</th>
                                 <th>Check-Out</th>
-                                <th>Adv Payment</th>
-                                <th>Payable</th>
+                                <th>Mode</th>
+                                <th>Status</th>
                                 
                                 <th>Actions</th>
                             </tr>
@@ -66,11 +66,23 @@ System Administration
                                 <td>{{ucfirst($booked->phone)}}</td>
                                 <td>{{ucfirst($booked->room->type)}}</td>
                                 <td>{{$booked->room->room_no}}</td>
-                                <td>{{$booked->subtotal}}</td>
+                                <td>{{$booked->net_amount}}</td>
                                 <td>{{$booked->check_out_date}}</td>
-                                <td>{{$booked->advance_payment}}</td>
-                                <td><span class="bg-success text-white rounded-1 p-1">{{$booked->net_amount}}</span></td>
                                 <td>
+                            @if($booked->status === 'checked_in')
+                                <span class="badge bg-warning text-dark">{{ $booked->status }}</span>
+                            @elseif($booked->status === 'checked_out')
+                                <span class="badge bg-success">{{ $booked->status }}</span>
+                            @endif
+</td>
+                                <td>
+                                @if($booked->payment_mode === 'incomplete')
+                                <span class="badge bg-warning text-dark">{{$booked->payment_mode}}</span>
+                            @elseif($booked->payment_mode === 'paid')
+                                <span class="badge bg-success">{{$booked->payment_mode}}</span>
+                            @endif
+
+ <td>
                                     <div class="d-flex gap-2">
                                         <button  class="btn btn-sm btn-outline-primary" data-booking-id="{{ $booked->id }}" title="Edit">
                                            <a href="{{route('booking_invoice' ,$booked->booking_id)}}"><i class="bi bi-pencil">Print</i></a> 
@@ -101,36 +113,7 @@ System Administration
         </div>
     </div>
 
-    
-<!-- Print Modal -->
-<div class="modal fade" id="printModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Booking Invoice</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="invoiceContent">
-                <!-- Invoice will be loaded here via AJAX -->
-                <div class="text-center py-4">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="sr-only">Loading...</span>
-                    </div>
-                    <p>Loading invoice...</p>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="printInvoiceBtn">
-                    <i class="fas fa-print"></i> Print
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
+ 
 
 @push('scripts')
 <script>
