@@ -22,8 +22,6 @@ return new class extends Migration
             $table->enum('status', ['available', 'occupied', 'maintenance'])->default('available');
             $table->text('description')->nullable();
             $table->integer('capacity')->nullable(); 
-            $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
             $table->timestamps();
         });
     }

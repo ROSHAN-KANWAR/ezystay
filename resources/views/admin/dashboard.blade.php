@@ -5,7 +5,7 @@ System Administration
 @section('dashboard')
 
 <main>
-                    <div class="container-fluid px-4">
+                    <div class="container-fluid">
                         <h4 class="mt-4">Dashboard</h1>
 
                         <div class="container mt-4">

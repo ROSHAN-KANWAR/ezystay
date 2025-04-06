@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Log;
 class Bookings extends Controller
 {
     public function index(){
-        $bookedrooms = booking::with('room')->get();
+        $bookedrooms = booking::with('room')->orderBy('id', 'desc')->get();
         return view('admin.Booking.bookinglist',compact('bookedrooms'));
     }
   

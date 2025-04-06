@@ -15,7 +15,7 @@ class dashboardController extends Controller
     }
     public function dashboard(){
         
-        $bookedrooms = booking::with('room')->get();
+        $bookedrooms = booking::with('room')->orderBy('id', 'desc')->get();
        
          $todayamount = booking::whereBetween('created_at',
          [

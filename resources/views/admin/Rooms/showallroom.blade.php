@@ -70,7 +70,7 @@ System Administration
 </span>
                             </td>
                             <td>
-                                <a href="" class="btn btn-sm btn-info">View</a>
+                               
                                 <a href="{{route('update_room' ,$room->id)}}" class="btn btn-sm btn-primary">Edit</a>
                                 <form action="" method="POST" style="display:inline;">
                                     @csrf
