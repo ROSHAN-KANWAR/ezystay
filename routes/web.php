@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\http\controllers\RoomsController;
 use App\http\controllers\Bookings;
-use App\http\controllers\dashboardController;
+use App\http\controllers\DashboardController;
 use App\http\controllers\Usercontroller;
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +16,7 @@ use App\http\controllers\Usercontroller;
 |
 */
 
-Route::get('/', [dashboardController::class ,'index'])->name('home');
+Route::get('/', [DashboardController::class ,'index'])->name('home');
 Route::middleware(['auth'])->group(function () {
     // All your admin routes here
 

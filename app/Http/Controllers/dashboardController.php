@@ -5,7 +5,7 @@ use App\Models\booking;
 use App\Models\rooms;
 use Illuminate\Http\Request;
 
-class dashboardController extends Controller
+class DashboardController extends Controller
 {
     public function index(){
         if(auth()->check()){
