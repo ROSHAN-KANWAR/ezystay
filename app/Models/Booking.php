@@ -4,12 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Booking extends Model
 {
-    use HasFactory, SoftDeletes;
-
+    use HasFactory;
     protected $fillable = [
         'booking_id',
         'name',
@@ -18,43 +16,55 @@ class Booking extends Model
         'address',
         'document_type',
         'document_number',
-        'room_id',
         'check_in_date',
         'check_out_date',
         'no_of_nights',
+        'expected_checkin_time',
+        'no_of_adults',
+        'no_of_children',
+        'total_on_guest',
+        'room_id',
+        'company_name',
+        'company_address',
+        'company_website',
+        'company_degignation',
         'subtotal',
-        'payment_status',
-        'payment_mode',
         'discount',
+        'tax_amount',
+        'extra_charges',
         'advance_payment',
         'net_amount',
+        'payment_status',
+        'payment_method',
+        'status',
         'special_requests',
-        'status'
-
+        'purpose_of_visit',
     ];
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($booking) { 
-            // Ensure check_out_date is after check_in_date
-            if ($booking->check_out_date <= $booking->check_in_date) {
-                throw new \Exception("Check-out date must be after check-in date");
-            }
-            
-            // Calculate no_of_nights if not provided
-            if (empty($booking->no_of_nights)) {
-                $booking->no_of_nights = $booking->check_in_date->diffInDays($booking->check_out_date);
-            }
-        });
-    }
-
-    
-
+    protected $casts = [
+        'check_in_date' => 'date',
+        'check_out_date' => 'date',
+        'expected_checkin_time' => 'datetime:H:i',
+        'subtotal' => 'decimal:2',
+        'discount' => 'decimal:2',
+        'tax_amount' => 'decimal:2',
+        'extra_charges' => 'decimal:2',
+        'advance_payment' => 'decimal:2',
+        'net_amount' => 'decimal:2',
+    ];
+    //relationship to room models
     public function room()
     {
-        return $this->belongsTo(Rooms::class);
+        return $this->belongsTo(Room::class);
     }
+   // Automatically generate booking ID when creating a new booking
+   protected static function boot()
+   {
+       parent::boot();
 
+       static::creating(function ($booking) {
+           if (empty($booking->booking_id)) {
+               $booking->booking_id = 'BK-' . strtoupper(uniqid());
+           }
+       });
+   }
 }

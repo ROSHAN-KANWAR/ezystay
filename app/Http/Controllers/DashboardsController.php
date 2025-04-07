@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\booking;
-use App\Models\rooms;
+use App\Models\Booking;
+use App\Models\Room;
 use Illuminate\Http\Request;
 
-class DashboardController extends Controller
+class DashboardsController extends Controller
 {
     public function index(){
         if(auth()->check()){
@@ -15,16 +15,16 @@ class DashboardController extends Controller
     }
     public function dashboard(){
         
-        $bookedrooms = booking::with('room')->orderBy('id', 'desc')->get();
+        $bookedrooms = Booking::with('rooms')->orderBy('id', 'desc')->get();
        
-         $todayamount = booking::whereBetween('created_at',
+         $todayamount = Booking::whereBetween('created_at',
          [
             now()->startOfWeek(),
             now()->endOfWeek()
          ])
          ->sum('subtotal');
  
-        $room = rooms::all();
+        $room = Room::all();
         return view('admin.dashboard',compact('bookedrooms','room' ,'todayamount'));
       
     }

@@ -76,9 +76,9 @@ System Administration
                             @endif
 </td>
                                 <td>
-                                @if($booked->payment_mode === 'incomplete')
-                                <span class="badge bg-warning text-dark">{{$booked->payment_mode}}</span>
-                            @elseif($booked->payment_mode === 'paid')
+                                @if($booked->payment_status === 'pending')
+                                <span class="badge bg-warning text-dark">{{$booked->payment_status}}</span>
+                            @elseif($booked->payment_status === 'paid')
                                 <span class="badge bg-success">{{$booked->payment_mode}}</span>
                             @endif
 

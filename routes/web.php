@@ -2,9 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\http\controllers\RoomsController;
-use App\http\controllers\Bookings;
-use App\http\controllers\DashboardController;
-use App\http\controllers\Usercontroller;
+use App\http\controllers\BookingController;
+use App\http\controllers\DashboardsController;
+use App\http\controllers\UsersController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,21 +16,21 @@ use App\http\controllers\Usercontroller;
 |
 */
 
-Route::get('/', [DashboardController::class ,'index'])->name('home');
+Route::get('/', [DashboardsController::class ,'index'])->name('home');
 Route::middleware(['auth'])->group(function () {
     // All your admin routes here
 
-    Route::get('/admin-dashboard',[dashboardController::class ,'dashboard'])->name('dashboard');
+    Route::get('/admin-dashboard',[DashboardsController::class ,'dashboard'])->name('dashboard');
 
     //booking folder all urls
-    Route::get('/admin-dashboard/booking-list',[Bookings::class ,'index'])->name('bookinglist');
-    Route::get('/admin-dashboard/create-booking',[Bookings::class ,'create'])->name('newbooking');
-    Route::post('/admin-dashboard/create-booking',[Bookings::class ,'store'])->name('booking_store');
-    Route::get('/admin-dashboard/checkout-booking',[Bookings::class ,'checkout_index'])->name('checkot_booking');
-    Route::post('/admin-dashboard/checkout-booking/search_result', [Bookings::class ,'checkout_search'])->name('checkout_search');
-    Route::post('/process/{bookingId}', [Bookings::class, 'checkout'])->name('checkout_com');
+    Route::get('/admin-dashboard/booking-list',[BookingController::class ,'index'])->name('bookinglist');
+    Route::get('/admin-dashboard/create-booking',[BookingController::class ,'create'])->name('newbooking');
+    Route::post('/admin-dashboard/create-booking',[BookingController::class ,'store'])->name('booking_stores');
+    Route::get('/admin-dashboard/checkout-booking',[BookingController::class ,'checkout_index'])->name('checkot_booking');
+    Route::post('/admin-dashboard/checkout-booking/search_result', [BookingController::class ,'checkout_search'])->name('checkout_search');
+    Route::post('/process/{bookingId}', [BookingController::class, 'checkout'])->name('checkout_com');
     //booking folder all urls
-    Route::get('/admin-dashboard/create-booking/{booking}/invoice', [Bookings::class ,'invoice'])->name('booking_invoice');
+    Route::get('/admin-dashboard/create-booking/{booking}/invoice', [BookingController::class ,'invoice'])->name('booking_invoice');
     //room invemtry routes
     Route::get('/admin-dashboard/add-room',[RoomsController::class ,'Addrooms'])->name('addroom');
     Route::post('/admin-dashboard/create-room',[RoomsController::class ,'store'])->name('store');
@@ -38,14 +38,17 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/admin-dashboard/update-room/{id}',[RoomsController::class ,'update_room'])->name('update_done_room');
     Route::get('/admin-dashboard/show-room',[RoomsController::class ,'index'])->name('allroom');
     //room invemtry routes
+    /////////////////
+    // new booking ursl
     
+    Route::post('/admin-dashboard/create-booking1',[BookingController::class ,'store1'])->name('booking_store1');
 });
 //register and login urls
 
-// Route::get('/register-form',[Usercontroller::class ,'Form_register'])->name('register_form');
+Route::get('/register-form',[UsersController::class ,'Form_register'])->name('register_form');
 
-// Route::post('/register-form',[Usercontroller::class ,'Store_register'])->name('store_register');
+Route::post('/register-form',[UsersController::class ,'Store_register'])->name('store_register');
 
-Route::post('/login-form',[Usercontroller::class ,'Login_data'])->name('login_data');
+Route::post('/login-form',[UsersController::class ,'Login_data'])->name('login_data');
 
-Route::post('/logout',[Usercontroller::class ,'Logout'])->name('logout');
+Route::post('/logout',[UsersController::class ,'Logout'])->name('logout');

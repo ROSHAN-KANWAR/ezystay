@@ -1,15 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\booking;
-use App\Models\Rooms;
+use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-class Bookings extends Controller
+
+class BookingController extends Controller
 {
     public function index(){
         $bookedrooms = booking::with('room')->orderBy('id', 'desc')->get();
@@ -18,7 +18,7 @@ class Bookings extends Controller
   
     public function create()
     {
-        $availableRooms = Rooms::available()->select('id', 'room_no', 'type', 'price','floor') // Explicitly select fields
+        $availableRooms = Room::available()->select('id', 'room_no', 'type', 'price','floor') // Explicitly select fields
         ->orderBy('type')
         ->orderBy('room_no')
         ->get(['id','room_no','type','price','floor'])->groupBy('type'); 
@@ -27,29 +27,28 @@ class Bookings extends Controller
   
     public function store(Request $request)
     {
-    try{
-            // Create booking with all request data
-            $bookingData = $request->all();
-            $room = Rooms::find($request->room_id);
-            // Generate booking ID
-            $bookingData['booking_id'] = $this->generateBookingId();
-            
-            // Create booking
-            $booking = Booking::create($bookingData);
-            $room->update(['status' => 'occupied']);
+        try{
+                // Create booking with all request data
+                $bookingData = $request->all();
+                $room = Room::find($request->room_id);
+                // Generate booking ID
+                $bookingData['booking_id'] = $this->generateBookingId();
+                
+                // Create booking
+                $booking = Booking::create($bookingData);
+                $room->update(['status' => 'occupied']);
 
-            return redirect()->route('bookinglist');
-    }
-            catch (\Exception $e) {
-               return redirect()->back()->with('error', $e->getMessage());
-            }
+                return redirect()->route('bookinglist');
+        }
+                catch (\Exception $e) {
+                return redirect()->back()->with('error', $e->getMessage());
+                }
     }
         private function generateBookingId()
         {
-            $prefix = 'BK';
-            $random = strtoupper(substr(uniqid(), -6));
-            
-            return "INV" . $prefix . $random;
+           $timestamp = now()->timestamp;
+           $bookingids = substr($timestamp ,-8);
+           return str_pad($bookingids,8,'0',STR_PAD_LEFT);
         }
     public function invoice($booking_id){
       
@@ -106,10 +105,6 @@ class Bookings extends Controller
    
     return redirect()->route('bookinglist');
     }
-    } 
     
-        
-       
 
-
-
+}
