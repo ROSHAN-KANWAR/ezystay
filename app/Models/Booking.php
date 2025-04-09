@@ -39,10 +39,11 @@ class Booking extends Model
         'status',
         'special_requests',
         'purpose_of_visit',
+        'document_verified',
     ];
     protected $casts = [
-        'check_in_date' => 'date',
-        'check_out_date' => 'date',
+        'check_in_date' => 'date:H:i',
+        'check_out_date' => 'date:H:i',
         'expected_checkin_time' => 'datetime:H:i',
         'subtotal' => 'decimal:2',
         'discount' => 'decimal:2',
@@ -56,6 +57,10 @@ class Booking extends Model
     {
         return $this->belongsTo(Room::class);
     }
+    public function documents()
+{
+    return $this->hasMany(document::class);
+}
    // Automatically generate booking ID when creating a new booking
    protected static function boot()
    {

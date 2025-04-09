@@ -62,9 +62,9 @@ Update Room
                         <!-- Price and Capacity -->
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <label for="price" class="form-label">Price per Night ($)*</label>
+                                <label for="price" class="form-label">Price per Night (₹)*</label>
                                 <div class="input-group">
-                                    <span class="input-group-text">$</span>
+                                    <span class="input-group-text">₹ </span>
                                     <input type="number" step="0.01" class="form-control @error('price') is-invalid @enderror" 
                                            id="price" name="price" value="{{ old('price', $room->price) }}" required>
                                     @error('price')

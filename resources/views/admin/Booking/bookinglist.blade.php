@@ -50,9 +50,10 @@ System Administration
                                 <th>Room No.</th>
                                 <th>Remain-Amount</th>
                                 <th>Check-Out</th>
+                                <th>Document</th>
+                                <th>Mode</th>
                                 <th>Mode</th>
                                 <th>Status</th>
-                                
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -69,18 +70,37 @@ System Administration
                                 <td>{{$booked->net_amount}}</td>
                                 <td>{{$booked->check_out_date}}</td>
                                 <td>
+                                @if($booked->document_verified === 1)
+                                <span class="badge bg-danger text-white">
+                                <a href="{{route('documentsprint' ,$booked)}}"><i class="bi bi-pencil text-white">Print</i></a>       
+                                </span>
+                           @endif
+
+                            </td>
+                            <td>
+                                @if($booked->document_verified === 0)
+                                <span class="badge bg-danger text-white">
+                                <a href="{{route('add_document_upload' ,$booked->booking_id)}}"><i class="bi bi-pencil text-white">Not verify</i></a>       
+                                </span>
+                            @elseif($booked->document_verified  === 1)
+                                <span class="badge bg-success">Verified</span>
+                            @endif
+
+                            </td>
+                                <td>
                             @if($booked->status === 'checked_in')
                                 <span class="badge bg-warning text-dark">{{ $booked->status }}</span>
                             @elseif($booked->status === 'checked_out')
                                 <span class="badge bg-success">{{ $booked->status }}</span>
                             @endif
-</td>
+                                </td>
                                 <td>
                                 @if($booked->payment_status === 'pending')
                                 <span class="badge bg-warning text-dark">{{$booked->payment_status}}</span>
                             @elseif($booked->payment_status === 'paid')
-                                <span class="badge bg-success">{{$booked->payment_mode}}</span>
+                                <span class="badge bg-success">{{$booked->payment_status}}</span>
                             @endif
+</td>
 
  <td>
                                     <div class="d-flex gap-2">

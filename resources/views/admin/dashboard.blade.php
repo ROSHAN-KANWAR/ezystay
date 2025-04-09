@@ -62,13 +62,11 @@ System Administration
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <h6 class="text-uppercase text-muted mb-2">Revenue</h6>
-                                <h6 class="mb-1">Rs {{number_format($bookedrooms->sum('subtotal'),2)}}</h2>
-                                <p class="mb-0 text-muted">One Weeks : Rs {{$todayamount}}</p>
+                                <h6 class="mb-1">₹ {{number_format($bookedrooms->sum('subtotal'),2)}}</h2>
+                                <p class="mb-0 text-muted">One Weeks : ₹ {{$todayamount}}</p>
                             </div>
                             <div class="bg-success bg-opacity-10 p-3 rounded">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-currency-dollar text-success" viewBox="0 0 16 16">
-                                    <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718H4zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73l.348.086z"/>
-                                </svg>
+                            ₹
                             </div>
                         </div>
                        
@@ -107,9 +105,10 @@ System Administration
                                 <th>Room No.</th>
                                 <th>Remain-Amount</th>
                                 <th>Check-Out</th>
+                                <th>Document</th>
+                                <th>Mode</th>
                                 <th>Mode</th>
                                 <th>Status</th>
-                                
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -126,18 +125,37 @@ System Administration
                                 <td>{{$booked->net_amount}}</td>
                                 <td>{{$booked->check_out_date}}</td>
                                 <td>
+                                @if($booked->document_verified === 1)
+                                <span class="badge bg-danger text-white">
+                                <a href="{{route('documentsprint' ,$booked)}}"><i class="bi bi-pencil text-white">Print</i></a>       
+                                </span>
+                           @endif
+
+                            </td>
+                            <td>
+                                @if($booked->document_verified === 0)
+                                <span class="badge bg-danger text-white">
+                                <a href="{{route('add_document_upload' ,$booked->booking_id)}}"><i class="bi bi-pencil text-white">Not verify</i></a>       
+                                </span>
+                            @elseif($booked->document_verified  === 1)
+                                <span class="badge bg-success">Verified</span>
+                            @endif
+
+                            </td>
+                                <td>
                             @if($booked->status === 'checked_in')
                                 <span class="badge bg-warning text-dark">{{ $booked->status }}</span>
                             @elseif($booked->status === 'checked_out')
                                 <span class="badge bg-success">{{ $booked->status }}</span>
                             @endif
-</td>
+                                </td>
                                 <td>
-                                @if($booked->payment_mode === 'incomplete')
-                                <span class="badge bg-warning text-dark">{{$booked->payment_mode}}</span>
-                            @elseif($booked->payment_mode === 'paid')
-                                <span class="badge bg-success">{{$booked->payment_mode}}</span>
+                                @if($booked->payment_status === 'pending')
+                                <span class="badge bg-warning text-dark">{{$booked->payment_status}}</span>
+                            @elseif($booked->payment_status === 'paid')
+                                <span class="badge bg-success">{{$booked->payment_status}}</span>
                             @endif
+</td>
 
  <td>
                                     <div class="d-flex gap-2">

@@ -38,20 +38,25 @@ System Administration
                     <div class="sb-sidenav-menu">
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Core</div>
-                            <a class="nav-link" href="{{Route('dashboard')}}">
+                            <a class="nav-link {{ request()->routeIs('dashboard') ? 'active bg-warning' : '' }}" href="{{Route('dashboard')}}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Dashboard
                             </a>
                             <div class="sb-sidenav-menu-heading">Bookings</div>
-                            <a class="nav-link" href="{{Route('newbooking')}}">
+                            <a class="nav-link  {{ request()->routeIs('newbooking') ? 'active bg-warning' : '' }}" href="{{Route('newbooking')}}">
                                 <div class="font-weight-bold sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                New Booking
                             </a>
-                            <a class="nav-link" href="{{Route('checkot_booking')}}">
+                            <!-- <a class="nav-link " href="">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Add Document
+                            </a> -->
+                            <a class="nav-link {{ request()->routeIs('checkot_booking') ? 'active bg-warning' : '' }}" href="{{Route('checkot_booking')}}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                Check-out
                             </a>
-                            <a class="nav-link" href="{{Route('bookinglist')}}">
+                            
+                            <a class="nav-link {{ request()->routeIs('bookinglist') ? 'active bg-warning' : '' }}" href="{{Route('bookinglist')}}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                Booking List
                             </a>
@@ -67,15 +72,15 @@ System Administration
                                 </nav>
                             </div> -->
                             <div class="sb-sidenav-menu-heading">Manage Room`s</div>
-                            <a class="nav-link" href="{{Route('allroom')}}">
+                            <a class="nav-link {{ request()->routeIs('allroom') ? 'active bg-warning' : '' }}" href="{{Route('allroom')}}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                All Room
                             </a>
-                            <a class="nav-link" href="{{Route('addroom')}}">
+                            <a class="nav-link {{ request()->routeIs('addroom') ? 'active bg-warning' : '' }}" href="{{Route('addroom')}}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                               Add Room
                             </a>
-                            <a class="nav-link" href="{{Route('dashboard')}}">
+                            <a class="nav-link " href="{{Route('dashboard')}}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                               Room Inventry
                             </a>

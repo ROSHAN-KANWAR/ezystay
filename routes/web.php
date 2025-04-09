@@ -39,6 +39,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin-dashboard/show-room',[RoomsController::class ,'index'])->name('allroom');
     //room invemtry routes
     /////////////////
+    Route::get('/admin-dashboard/documents/print/{booking}', [BookingController::class, 'printDocuments'])->name('documentsprint');
+    //document upload feature
+    //Route::get('/admin-dashboard/add-document',[BookingController::class ,'add_document_index'])->name('add_document');
+    Route::get('/admin-dashboard/add-document/upload-document/{id}', [BookingController::class ,'add_document_upload'])->name('add_document_upload');
+    Route::post('/admin-dashboard/add-document/upload-document-1', [BookingController::class ,'store_document'])->name('add_document_upload_store');
+    Route::get('/admin-dashboard/create-booking-2/{id}', [BookingController::class, 'step2'])->name('bookingstep2');
     // new booking ursl
     
     Route::post('/admin-dashboard/create-booking1',[BookingController::class ,'store1'])->name('booking_store1');

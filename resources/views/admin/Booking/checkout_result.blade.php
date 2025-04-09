@@ -46,7 +46,7 @@ System Administration
                 </tr>
                 <tr>
                     <th>Total Amount:</th>
-                    <td>${{$booking->net_amount, 2 }}</td>
+                    <td>(₹){{$booking->net_amount, 2 }}</td>
                 </tr>
             </table>
 

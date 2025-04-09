@@ -66,7 +66,7 @@ return new class extends Migration
             // Additional fields
             $table->text('special_requests')->nullable();
             $table->string('purpose_of_visit')->nullable(); // business, leisure, etc.
-            
+           
             $table->timestamps();
             $table->softDeletes();
         });
