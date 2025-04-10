@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="{{asset('css/styles.css')}}">
 </head>
+@stack('styles')
 <body class="sb-nav-fixed">
 <div class="container-fluid">
     @yield('main-section')

@@ -28,11 +28,7 @@
     <div class="guest-section">
         <h4>Guest: {{ $guestName }}</h4>
         
-      <?php
-      echo "<pre>";
-print_r($guestDocs);
-
-?>
+    
     </div>
     @endforeach
 

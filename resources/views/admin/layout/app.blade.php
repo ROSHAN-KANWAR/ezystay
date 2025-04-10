@@ -2,6 +2,95 @@
 @section('title')
 System Administration
 @endsection
+
+@push('styles')
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            padding-bottom: 80px; /* Space for the navbar */
+        }
+
+        .content {
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        /* Bottom Navigation Bar */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #fff;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #555;
+            font-size: 12px;
+            flex: 1;
+            position: relative;
+        }
+
+        .nav-item i {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+
+        .nav-item.active {
+            color: #4a6bff;
+        }
+
+        /* Center Booking Button */
+        .booking-btn {
+            position: relative;
+            bottom: 20px;
+            background: linear-gradient(135deg, #4a6bff, #6a5acd);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            box-shadow: 0 4px 12px rgba(74, 107, 255, 0.3);
+        }
+
+        .booking-btn i {
+            font-size: 28px;
+        }
+
+        .booking-label {
+            position: absolute;
+            bottom: -20px;
+            font-size: 12px;
+            color: #555;
+        }
+
+        /* Hide on desktop */
+        @media (min-width: 768px) {
+            .bottom-nav {
+                display: none;
+            }
+        }
+    </style>
+@endpush
+
 @section('main-section')
 <nav class="sb-topnav navbar navbar-expand  navbar-dark bg-dark">
             <!-- Navbar Brand-->
@@ -112,6 +201,60 @@ System Administration
             <div id="layoutSidenav_content">
           
 @yield('dashboard')
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="{{Route('dashboard')}}" class="nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="{{Route('checkot_booking')}}" class="nav-item {{ request()->routeIs('checkot_booking') ? 'active' : '' }}">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Check Out</span>
+        </a>
+        <div class="nav-item">
+     
+        <a href="{{Route('newbooking')}}" class="nav-item {{ request()->routeIs('newbooking') ? 'active' : '' }}">
+            <div class="booking-btn">
+                <i class="fas fa-plus"></i>
+            </div>
+            <span class="booking-label">Booking</span>
+            </a>
+        </div>
+        <a href="{{Route('allroom')}}" class="nav-item  {{ request()->routeIs('allroom') ? 'active' : '' }}">
+            <i class="fas fa-bed"></i>
+            <span>Room</span>
+        </a>
+        <a href="{{ route('logout') }}" 
+                        class="nav-item" 
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <i class="fas fa-power-off"></i>
+            <span>Log Out</span>
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
+        
+    </nav>
+@push('scripts')
+    <script>
+        // Add active class to clicked nav item
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                // Don't apply active class to the booking button container
+                if (!this.classList.contains('booking-btn') && !this.querySelector('.booking-btn')) {
+                    document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Booking button functionality
+        document.querySelector('.booking-btn').addEventListener('click', function() {
+            alert('Ready To New Booking!');
+            // Add your booking functionality here
+        });
+    </script>
+@endpush
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">

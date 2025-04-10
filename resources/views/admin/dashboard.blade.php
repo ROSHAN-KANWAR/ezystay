@@ -8,7 +8,7 @@ System Administration
                     <div class="container-fluid">
                         <h4 class="mt-4">Dashboard</h1>
 
-                        <div class="container mt-4">
+                        <div class="container-fluid mt-4">
     <div class="container-fluid py-4 bg-light">
         <div class="row g-4">
             <!-- Occupied Rooms Box -->
