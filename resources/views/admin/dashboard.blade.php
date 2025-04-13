@@ -9,14 +9,14 @@ System Administration
                         <h4 class="mt-4">Dashboard</h1>
 
                         <div class="container-fluid mt-4">
-    <div class="container-fluid py-4 bg-light">
-        <div class="row g-4">
-            <!-- Occupied Rooms Box -->
-            <div class="col-md-4">
-                <div class="card border-start border-info border-4 shadow-sm">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
+                           <div class="container-fluid  bg-light">
+                              <div class="row g-4">
+                                <!-- Occupied Rooms Box -->
+                                <div class="col-md-4">
+                                    <div class="card border-start border-info border-4 shadow-sm">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div>
                                 <h6 class="text-uppercase text-muted mb-2">Room Occupancy</h6>
                                 <h6 class="mb-1">{{$room->where('status','occupied')->count()}}/{{$room->count()}}</h2>
                                 <p class="mb-0 text-muted">{{$room->where('status','occupied')->count()}} Booked | {{$room->where('status','available')->count()}} Available</p>

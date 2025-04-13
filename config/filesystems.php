@@ -27,6 +27,7 @@ return [
     | Supported Drivers: "local", "ftp", "sftp", "s3"
     |
     */
+// In config/filesystems.php
 
     'disks' => [
 
@@ -35,7 +36,11 @@ return [
             'root' => storage_path('app'),
             'throw' => false,
         ],
-
+        'image_compression' => [
+            'quality' => 60,
+            'max_width' => 1200,
+            'max_height' => 1200
+        ],
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

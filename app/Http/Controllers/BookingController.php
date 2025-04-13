@@ -10,6 +10,8 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
+use Illuminate\Support\Facades\File;
+
 use Illuminate\Support\Str;
 class BookingController extends Controller
 {
@@ -145,54 +147,71 @@ public function add_document_upload($booking_id){
   public function store_document(Request $request)
   {
       $request->validate([
-          'booking_id' => 'required|exists:bookings,id', // Fixed typo: 'bookings' instead of 'bookings'
+          'booking_id' => 'required|exists:bookings,id',
           'guest_names' => 'required|array',
           'guest_names.*' => 'required|string',
           'document_types' => 'required|array',
           'document_types.*' => 'required|string|in:passport,id_card,driver_license,visa,other',
           'front_files' => 'required|array',
-          'front_files.*' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
+          'front_files.*' => 'required|file|mimes:jpg,jpeg,png,pdf|max:5048',
           'back_files' => 'nullable|array',
-          'back_files.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048'
+          'back_files.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:5048'
       ]);
   
-      // Start transaction for data consistency
       DB::beginTransaction();
   
       try {
-          foreach ($request->guest_names as $index => $guestName) {
-              // Upload front side
-              $frontPath = $request->file('front_files')[$index]->store('guest_documents');
+          // Create directory if it doesn't exist
+          $publicPath = public_path('uploads/guest_documents');
+          if (!File::exists($publicPath)) {
+              File::makeDirectory($publicPath, 0755, true);
+          }
   
-              Document::create([ // Assuming model name is Document (capitalized)
+          foreach ($request->guest_names as $index => $guestName) {
+              // Process front side
+              $frontFile = $request->file('front_files')[$index];
+              $frontFileName = 'booking_'.$request->booking_id.'_guest_'.($index+1).'_front_'.time().'.'.$frontFile->getClientOriginalExtension();
+              $frontPath = 'uploads/guest_documents/'.$frontFileName;
+              
+              // Move to public folder
+              $frontFile->move($publicPath, $frontFileName);
+  
+              Document::create([
                   'booking_id' => $request->booking_id,
                   'document_type' => $request->document_types[$index],
                   'file_path' => $frontPath,
                   'side' => 'front',
-                  'guest_name' => $guestName
+                  'guest_name' => $guestName,
+                  'original_filename' => $frontFile->getClientOriginalName()
               ]);
   
-              // Upload back side if exists
+              // Process back side if exists
               if (isset($request->file('back_files')[$index])) {
-                  $backPath = $request->file('back_files')[$index]->store('guest_documents');
+                  $backFile = $request->file('back_files')[$index];
+                  $backFileName = 'booking_'.$request->booking_id.'_guest_'.($index+1).'_back_'.time().'.'.$backFile->getClientOriginalExtension();
+                  $backPath = 'uploads/guest_documents/'.$backFileName;
+                  
+                  $backFile->move($publicPath, $backFileName);
   
                   Document::create([
                       'booking_id' => $request->booking_id,
                       'document_type' => $request->document_types[$index],
                       'file_path' => $backPath,
                       'side' => 'back',
-                      'guest_name' => $guestName
+                      'guest_name' => $guestName,
+                      'original_filename' => $backFile->getClientOriginalName()
                   ]);
               }
           }
   
           // Update booking verification status
-          $booking = Booking::where('id', $request->booking_id) // Changed 'booking_id' to 'id' assuming standard Laravel primary key
+          $booking = Booking::where('id', $request->booking_id)
                     ->where('status', 'checked_in')
                     ->firstOrFail();
-                    
+                  
           $booking->update([
-              'document_verified' => true,// Optional: add timestamp of verification
+              'document_verified' => true,
+              'document_verified_at' => now()
           ]);
   
           DB::commit();
@@ -204,20 +223,18 @@ public function add_document_upload($booking_id){
           return back()->with('error', 'Failed to upload documents: ' . $e->getMessage());
       }
   }
- 
 ///print all document of single users
-public function printDocuments(Booking $booking)
+///print all document of single users
+public function printDocuments($bookingId)
 {
+    $booking = Booking::findOrFail($bookingId);
+    $documents = Document::where('booking_id', $bookingId)
+                ->orderBy('guest_name')
+                ->orderBy('side')
+                ->get()
+                ->groupBy('guest_name');
     
-    $documents = $booking->Documents()->get()->groupBy('guest_name');
-    // echo "<pre>";
-    // print_r($documents);
-    // exit;
-    return view('admin.booking.print', [
-        'booking' => $booking,
-        'documents' => $documents
-    ]);
-
+    return view('admin.booking.print', compact('booking', 'documents'));
 }
     }
 
