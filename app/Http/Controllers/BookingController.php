@@ -17,7 +17,7 @@ class BookingController extends Controller
 {
     public function index(){
         $bookedrooms = booking::with('room')->orderBy('id', 'desc')->get();
-        return view('admin.booking.bookinglist',compact('bookedrooms'));
+        return view('admin.Booking.bookinglist',compact('bookedrooms'));
     }
   
     public function create()
@@ -29,11 +29,11 @@ class BookingController extends Controller
     $roomTypes = Room::distinct()->pluck('floor');
     $floors = Room::distinct()->pluck('floor')->sort();
     
-    return view('admin.booking.onlyroomnumber', compact('availableRooms', 'roomTypes', 'floors'));
+    return view('admin.Booking.onlyroomnumber', compact('availableRooms', 'roomTypes', 'floors'));
     }
   public function getroomid($roomid){
     $room = Room::find($roomid);
-    return view('admin.booking.createbooking2', compact('room'));
+    return view('admin.Booking.createbooking2', compact('room'));
    
   }
     public function store(Request $request)
@@ -77,11 +77,11 @@ class BookingController extends Controller
         $total = $pr*$nigh + $pr*$nigh*(12/100);
         $cgst = $total*(6/100);
         $sgst = $total* (6/100); 
-        return view('admin.booking.invoice',compact('booking','today','cgst','sgst' ,'total'));
+        return view('admin.Booking.invoice',compact('booking','today','cgst','sgst' ,'total'));
     }
     //checkout controller
     public function checkout_index(){
-        return view('admin.booking.checkoutbooking');
+        return view('admin.Booking.checkoutbooking');
     }
     public function checkout_search(Request $request){
         $request->validate(['search' => 'required']);
@@ -100,7 +100,7 @@ class BookingController extends Controller
     if (!$booking) {
         return back()->with('error', 'No occupied room or active booking found!');
     }
-        return view('admin.booking.checkout_result' ,compact('booking'));
+        return view('admin.Booking.checkout_result' ,compact('booking'));
     }
 //onlyroomnumber direct checkout
 public function checkout_roomid($roomId){
@@ -114,7 +114,7 @@ public function checkout_roomid($roomId){
       if (!$booking) {
         return back()->with('error', 'No occupied room or active booking found!');
     }
-        return view('admin.booking.checkout_result' ,compact('booking'));
+        return view('admin.Booking.checkout_result' ,compact('booking'));
     }
 
     //checkou complete 
@@ -123,7 +123,7 @@ public function checkout_roomid($roomId){
         ->where('status', 'checked_in')
         ->firstOrFail();
         if (!$booking->document_verified) {
-            return view('admin.booking.checkout_result')->with('error', 'Cannot check out. Guest documents have not been verified!');
+            return view('admin.Booking.checkout_result')->with('error', 'Cannot check out. Guest documents have not been verified!');
         }
     // Update booking status
     $booking->update(['status' => 'checked_out']);
@@ -150,7 +150,7 @@ public function add_document_upload($booking_id){
                 ->with('error', 'Documents for this booking are already verified');
         }
     
-    return view('admin.booking.add_document_upload' ,compact('booking'));
+    return view('admin.Booking.add_document_upload' ,compact('booking'));
 }
   // Process document uploads
   public function store_document(Request $request)
@@ -243,7 +243,7 @@ public function printDocuments($bookingId)
                 ->get()
                 ->groupBy('guest_name');
     
-    return view('admin.booking.print', compact('booking', 'documents'));
+    return view('admin.Booking.print', compact('booking', 'documents'));
 }
     }
 
