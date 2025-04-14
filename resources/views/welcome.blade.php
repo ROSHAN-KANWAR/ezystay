@@ -1,4 +1,4 @@
-@extends('Layout.app')
+@extends('layout.app')
 @section('title')
 Secure Login
 @endsection
