@@ -41,6 +41,10 @@ class Room extends Model
     {
         return $query->where('status', 'available');
     }
+    public function scopeOccupied($query)
+    {
+        return $query->where('status', 'occupied');
+    }
    static public function getStatusOptions()
     {
         return [

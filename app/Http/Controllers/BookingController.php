@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\booking;
+use App\Models\Booking;
 use App\Models\Room;
-use App\Models\document;
+use App\Models\Document;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -22,11 +22,14 @@ class BookingController extends Controller
   
     public function create()
     {
-        $availableRooms = Room::available()->select('id', 'room_no', 'type', 'price','floor') // Explicitly select fields
-        ->orderBy('type')
-        ->orderBy('room_no')
-        ->get(['id','room_no','type','price','floor'])->groupBy('type'); 
-        return view('admin.booking.createbooking',compact('availableRooms'));
+        $availableRooms = Room::all()
+        ->groupBy('floor');
+    
+    // Get additional data that might be useful for the booking form
+    $roomTypes = Room::distinct()->pluck('floor');
+    $floors = Room::distinct()->pluck('floor')->sort();
+    
+    return view('admin.booking.createbooking1', compact('availableRooms', 'roomTypes', 'floors'));
     }
   
     public function store(Request $request)

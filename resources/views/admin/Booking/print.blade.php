@@ -95,7 +95,9 @@
         <h1>Booking Documents</h1>
         <h2>Booking ID: #{{ $booking->booking_id }}</h2>
     </div>
-
+    <a href="{{route('bookinglist')}}" class="btn bg-primary">
+                Back Home
+            </a>
     <div class="action-buttons">
         <button class="print-button" onclick="window.print()">Print All Documents</button>
     </div>
@@ -154,5 +156,6 @@
     <div class="action-buttons" style="margin-top: 30px;">
         <button class="print-button" onclick="window.print()">Print All Documents</button>
     </div>
+
 </body>
 </html>
