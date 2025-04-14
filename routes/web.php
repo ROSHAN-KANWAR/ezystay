@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\http\controllers\RoomsController;
-use App\http\controllers\BookingController;
-use App\http\controllers\DashboardsController;
-use App\http\controllers\UsersController;
+use App\Http\Controllers\RoomsController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\DashboardsController;
+use App\Http\Controllers\UsersController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
