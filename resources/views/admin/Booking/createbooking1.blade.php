@@ -17,10 +17,17 @@
                 <div class="card-header bg-primary text-white">
                     <h4 class="mb-0">Room Selection</h4>
                 </div>
+                <div class="d-flex mt-2 px-1">
+                            <span class="badge bg-success me-2">Available</span>
+                            <span class="badge bg-danger me-2">Occupied</span>
+                            
+                            <span class="badge bg-warning me-2">Maintenance</span>
+                        </div>
                 <div class="card-body">
                     <div class="row">
+
                         @foreach($availableRooms as $type => $rooms)
-                        <div class="col-md-12 mb-3">
+                        <div class="col-md-3 mb-3">
                             <h5>{{ ucfirst($type) }}</h5>
                             <div class="d-flex flex-wrap">
                                 @foreach($rooms as $room)
@@ -35,7 +42,8 @@
                         >
                             {{ $room->room_no }}
                         </button>
-                        @else
+                        @endif
+                       @if($room->status === 'occupied')
         <!-- Occupied Room (Checkout Button) -->
         <button 
     type="button" 
@@ -46,7 +54,17 @@
 >
     {{ $room->room_no }}
 </button>
-
+ @endif
+ @if($room->status === 'maintenance')
+ <button 
+    type="button" 
+    class="btn btn-sm m-1 room-pill btn-warning"
+    data-toggle="modal" 
+    data-target="#checkoutModal{{ $room->id }}"
+    style="width: 60px; height: 40px; padding: 0; cursor: not-allowed;"
+>
+    {{ $room->room_no }}
+</button>
                         @endif
                                 @endforeach
                             </div>
@@ -115,18 +133,18 @@
                         </div>
                     </div>
 
-                    <div class="row mb-3">
+                    <div class="row mb-3" hidden>
                         <div class="col-md-6">
                             <label for="purpose_of_visit" class="form-label">Purpose of Visit</label>
                             <input type="text" class="form-control" id="purpose_of_visit" name="purpose_of_visit">
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6" hidden>
                             <label for="expected_checkin_time" class="form-label">Expected Check-in Time</label>
                             <input type="time" class="form-control" id="expected_checkin_time" name="expected_checkin_time">
                         </div>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="mb-3" hidden>
                         <label for="special_requests" class="form-label">Special Requests</label>
                         <textarea class="form-control" id="special_requests" name="special_requests" rows="2"></textarea>
                     </div>
@@ -161,7 +179,7 @@
                         <div class="col-md-2">
                             <div class="mb-3">
                                 <label for="no_of_adults" class="form-label">Adults *</label>
-                                <input type="number" class="form-control" name="no_of_adults" id="no_of_adults" min="1" value="1" required>
+                                <input type="number" class="form-control" name="no_of_adults" id="no_of_adults" min="0" value="0" required>
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -171,7 +189,12 @@
                             </div>
                         </div>
                     </div>
-                    
+                    <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="total_on_guest" class="form-label">Total Guest *</label>
+                                <input type="number" class="form-control" name="total_on_guest" id="no_of_adults" min="1" value="1" required>
+                            </div>
+                        </div>
                     <div class="row">
                         <div class="col-md-8">
                             <div class="form-check mt-2">

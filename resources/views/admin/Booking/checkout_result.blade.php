@@ -48,11 +48,19 @@ System Administration
                     <th>Total Amount:</th>
                     <td>(₹){{$booking->net_amount, 2 }}</td>
                 </tr>
+                @if(!$booking->document_verified)
+                <tr class="text-danger">
+                    <th>Document Status:</th>
+                    <td>Not Verified - Please verify documents before checkout</td>
+                </tr>
+                @endif
             </table>
 
             <form method="POST" action="{{route('checkout_com', $booking->booking_id)}}">
                 @csrf
-                <button type="submit" class="btn btn-success">Complete Checkout</button>
+                <button type="submit" class="btn btn-success" @if(!$booking->document_verified) disabled @endif>
+                    Complete Checkout
+                </button>
                 <a href="{{route('checkot_booking')}}" class="btn btn-secondary">Cancel</a>
             </form>
         </div>
@@ -64,5 +72,3 @@ System Administration
                 </main>
         
    @endsection
-        
-   

@@ -217,7 +217,50 @@ System Administration
         });
         
         // Camera functions
-        function startCamera(guestIndex, side) {
+        // function startCamera(guestIndex, side) {
+        //     navigator.mediaDevices.getUserMedia({ video: true })
+        //         .then(function(stream) {
+        //             const streamKey = `${guestIndex}-${side}`;
+        //             streams[streamKey] = stream;
+                    
+        //             const video = document.querySelector(`#${side}-camera-preview-${guestIndex} .camera-video`);
+        //             video.srcObject = stream;
+                    
+        //             // Hide image options if shown
+        //             document.querySelectorAll(`.image-options[data-guest="${guestIndex}"][data-side="${side}"]`).forEach(el => {
+        //                 el.style.display = 'none';
+        //             });
+        //         })
+        //         .catch(function(err) {
+        //             console.error("Camera error: ", err);
+        //             alert("Could not access the camera. Please check permissions.");
+        //         });
+        // }
+        // Replace the existing startCamera function with this updated version
+function startCamera(guestIndex, side) {
+    // Specify constraints to prefer the rear camera
+    const constraints = {
+        video: {
+            facingMode: { ideal: 'environment' } // This will try to use the rear camera
+        }
+    };
+    
+    navigator.mediaDevices.getUserMedia(constraints)
+        .then(function(stream) {
+            const streamKey = `${guestIndex}-${side}`;
+            streams[streamKey] = stream;
+            
+            const video = document.querySelector(`#${side}-camera-preview-${guestIndex} .camera-video`);
+            video.srcObject = stream;
+            
+            // Hide image options if shown
+            document.querySelectorAll(`.image-options[data-guest="${guestIndex}"][data-side="${side}"]`).forEach(el => {
+                el.style.display = 'none';
+            });
+        })
+        .catch(function(err) {
+            console.error("Camera error: ", err);
+            // If rear camera fails, fall back to any available camera
             navigator.mediaDevices.getUserMedia({ video: true })
                 .then(function(stream) {
                     const streamKey = `${guestIndex}-${side}`;
@@ -226,17 +269,16 @@ System Administration
                     const video = document.querySelector(`#${side}-camera-preview-${guestIndex} .camera-video`);
                     video.srcObject = stream;
                     
-                    // Hide image options if shown
                     document.querySelectorAll(`.image-options[data-guest="${guestIndex}"][data-side="${side}"]`).forEach(el => {
                         el.style.display = 'none';
                     });
                 })
-                .catch(function(err) {
-                    console.error("Camera error: ", err);
-                    alert("Could not access the camera. Please check permissions.");
+                .catch(function(fallbackErr) {
+                    console.error("Fallback camera error: ", fallbackErr);
+                    alert("Could not access any camera. Please check permissions.");
                 });
-        }
-        
+        });
+}
         function stopCamera(guestIndex, side) {
             const streamKey = `${guestIndex}-${side}`;
             if (streams[streamKey]) {
