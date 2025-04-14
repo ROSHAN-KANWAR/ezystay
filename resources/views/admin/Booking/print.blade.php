@@ -120,11 +120,11 @@
                     <div class="document-type">{{ $frontDoc->document_type }}</div>
                     <div class="document-image-container">
                         @if(pathinfo($frontDoc->file_path, PATHINFO_EXTENSION) === 'pdf')
-                            <embed src="{{ asset($frontDoc->file_path) }}" 
+                            <embed src="{{ asset('public/'.$frontDoc->file_path) }}" 
                                    class="document-pdf" 
                                    type="application/pdf">
                         @else
-                            <img src="{{ asset($frontDoc->file_path) }}" 
+                            <img src="{{ asset('public/'.$frontDoc->file_path) }}" 
                                  class="document-image"
                                  alt="Front side document">
                         @endif
@@ -138,11 +138,11 @@
                         <div class="document-type">{{ $backDoc->document_type }}</div>
                         <div class="document-image-container">
                             @if(pathinfo($backDoc->file_path, PATHINFO_EXTENSION) === 'pdf')
-                                <embed src="{{ asset($backDoc->file_path) }}" 
+                                <embed src="{{ asset('public/'.$backDoc->file_path) }}" 
                                        class="document-pdf" 
                                        type="application/pdf">
                             @else
-                                <img src="{{ asset($backDoc->file_path) }}" 
+                                <img src="{{ asset('public/'.$backDoc->file_path) }}" 
                                      class="document-image"
                                      alt="Back side document">
                             @endif
