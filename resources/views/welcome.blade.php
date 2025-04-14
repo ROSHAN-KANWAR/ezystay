@@ -9,7 +9,7 @@ Secure Login
     <div class="card shadow-lg w-100 " style="max-width: 480px;">
         <div class="card-body">
             <div class="text-center">
-                <h1 class="card-title h3">Welcome in EazyWay</h1>
+                <h1 class="card-title h3">Welcome in EazyWay!</h1>
                 <i class="fab fa-laravel"></i>
                 <p class="card-text text-muted">Exclusive Access - Login Here</p>
             </div>
