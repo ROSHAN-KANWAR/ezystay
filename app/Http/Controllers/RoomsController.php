@@ -11,12 +11,12 @@ class RoomsController extends Controller
     public function index()
     {
       $rooms = Room::query()->orderBy('id','desc')->get();
-      return view('admin.rooms.showallroom', compact('rooms'));
+      return view('admin.Rooms.showallroom', compact('rooms'));
     }
 //Add New Rooms Form
     public function Addrooms(){
 
-      return view('admin.rooms.addroom',[
+      return view('admin.Rooms.addroom',[
         'floorOptions' => Room::getFloorOptions(),
         'typeOptions' => Room::getTypeOptions(),
         'statusOptions' => Room::getStatusOptions()
@@ -44,7 +44,7 @@ class RoomsController extends Controller
     public function edit_room($room_id){
      
       $room = Room::find($room_id);
-      return view('admin.rooms.updateroom', compact('room'));
+      return view('admin.Rooms.updateroom', compact('room'));
     }
     public function update_room($id, Request $request){
    try{
