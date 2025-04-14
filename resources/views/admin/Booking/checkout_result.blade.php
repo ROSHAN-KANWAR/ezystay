@@ -6,7 +6,7 @@ System Administration
 
 
 <main>
-    <div class="container-fluid px-4">
+    <div class="container-fluid">
     @if(session('error'))
     <div class="alert alert-danger">
         {{ session('error') }}
