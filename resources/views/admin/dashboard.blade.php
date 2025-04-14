@@ -6,7 +6,7 @@ System Administration
 
 <main>
                     <div class="container-fluid">
-                        <h4 class="mt-4">Dashboard</h1>
+                        <h4 class="mt-4">Dashboards</h1>
 
                         <div class="container-fluid mt-4">
                            <div class="container-fluid  bg-light">
