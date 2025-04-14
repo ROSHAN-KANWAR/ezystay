@@ -1,4 +1,4 @@
-@extends('admin.layout.app')
+@extends('Admin.Layout.app')
 @section('title')
 System Administration
 @endsection
@@ -57,7 +57,7 @@ System Administration
                         <tr>
                             <td>{{ $room->id }}</td>
                             <td>{{ $room->room_no}}</td>
-                            <td>${{ number_format($room->price, 2) }}</td>
+                            <td> (₹){{ number_format($room->price, 2) }}</td>
                             <td>{{ $room->floor }}</td>
                             <td>{{ $room->type }}</td>
                             <td>

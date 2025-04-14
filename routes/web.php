@@ -24,10 +24,14 @@ Route::middleware(['auth'])->group(function () {
 
     //booking folder all urls
     Route::get('/admin-dashboard/booking-list',[BookingController::class ,'index'])->name('bookinglist');
+    Route::get('/admin-dashboard/create-booking/{roomId}', [BookingController::class, 'getroomid'])->name('getroomid');
+   
     Route::get('/admin-dashboard/create-booking',[BookingController::class ,'create'])->name('newbooking');
     Route::post('/admin-dashboard/create-booking',[BookingController::class ,'store'])->name('booking_stores');
     Route::get('/admin-dashboard/checkout-booking',[BookingController::class ,'checkout_index'])->name('checkot_booking');
     Route::post('/admin-dashboard/checkout-booking/search_result', [BookingController::class ,'checkout_search'])->name('checkout_search');
+    Route::get('/admin-dashboard/checkout-booking/ckeckout_result/{roomid}', [BookingController::class ,'checkout_roomid'])->name('checkout_roomid');
+    
     Route::post('/process/{bookingId}', [BookingController::class, 'checkout'])->name('checkout_com');
     //booking folder all urls
     Route::get('/admin-dashboard/create-booking/{booking}/invoice', [BookingController::class ,'invoice'])->name('booking_invoice');

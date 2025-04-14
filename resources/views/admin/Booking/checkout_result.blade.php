@@ -1,4 +1,4 @@
-@extends('admin.layout.app')
+@extends('Admin.Layout.app')
 @section('title')
 System Administration
 @endsection
@@ -61,7 +61,7 @@ System Administration
                 <button type="submit" class="btn btn-success" @if(!$booking->document_verified) disabled @endif>
                     Complete Checkout
                 </button>
-                <a href="{{route('checkot_booking')}}" class="btn btn-secondary">Cancel</a>
+                <a href="{{route('newbooking')}}" class="btn btn-secondary">Cancel</a>
             </form>
         </div>
     </div>

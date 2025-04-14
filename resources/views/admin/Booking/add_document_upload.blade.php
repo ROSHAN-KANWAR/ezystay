@@ -1,4 +1,4 @@
-@extends('admin.layout.app')
+@extends('Admin.Layout.app')
 @section('title')
 System Administration
 @endsection

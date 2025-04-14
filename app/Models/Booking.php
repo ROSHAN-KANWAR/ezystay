@@ -61,6 +61,15 @@ class Booking extends Model
 {
     return $this->hasMany(document::class);
 }
+
+const DOCUMENT_TYPES = [
+    'passport' => 'Passport',
+    'aadhar_card' => 'Aadhar Card',
+    'driver_license' => 'Driver License',
+    'voter_id' => 'Voter id',
+    'pan_card' => 'Pan Card',
+    'other' => 'Other'
+];
    // Automatically generate booking ID when creating a new booking
    protected static function boot()
    {

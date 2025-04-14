@@ -1,4 +1,4 @@
-@extends('admin.layout.app')
+@extends('Admin.Layout.app')
 @section('title')
 System Administration
 @endsection
@@ -6,11 +6,11 @@ System Administration
 
 
 <main>
-                    <div class="container-fluid px-4">
+                    <div class="container-fluid">
                         <h4 class="mt-4">Booking List</h4>
 <!-- new booking code -->
 
-    <div class="container-fluid py-4">
+    <div class="container-fluid ">
         <div class="card shadow-sm">
             <div class="card-header bg-white d-flex justify-content-between align-items-center flex-wrap">
                 <h5 class="mb-2 mb-md-0">Booking Management</h5>
@@ -22,21 +22,8 @@ System Administration
                     </div>
                 </div>
             </div>
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
-                    <div class="mb-2 mb-md-0">
-                        <label for="entriesFilter" class="form-label">Show entries:</label>
-                        <select id="entriesFilter" class="form-select form-select-sm" style="width: 80px;">
-                            <option value="10">10</option>
-                            <option value="25">25</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                        </select>
-                    </div>
-                    <div class="text-muted">
-                        Showing 1 to 10 of 45 entries
-                    </div>
-                </div>
+            <div class="">
+              
    
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered" id="bookingsTable">

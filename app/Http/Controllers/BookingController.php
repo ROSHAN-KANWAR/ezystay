@@ -29,9 +29,13 @@ class BookingController extends Controller
     $roomTypes = Room::distinct()->pluck('floor');
     $floors = Room::distinct()->pluck('floor')->sort();
     
-    return view('admin.booking.createbooking1', compact('availableRooms', 'roomTypes', 'floors'));
+    return view('admin.booking.onlyroomnumber', compact('availableRooms', 'roomTypes', 'floors'));
     }
-  
+  public function getroomid($roomid){
+    $room = Room::find($roomid);
+    return view('admin.booking.createbooking2', compact('room'));
+   
+  }
     public function store(Request $request)
     {
         try{
@@ -77,7 +81,6 @@ class BookingController extends Controller
     }
     //checkout controller
     public function checkout_index(){
-  
         return view('admin.booking.checkoutbooking');
     }
     public function checkout_search(Request $request){
@@ -95,6 +98,20 @@ class BookingController extends Controller
         ->first();
         
     if (!$booking) {
+        return back()->with('error', 'No occupied room or active booking found!');
+    }
+        return view('admin.booking.checkout_result' ,compact('booking'));
+    }
+//onlyroomnumber direct checkout
+public function checkout_roomid($roomId){
+    $booking = Booking::whereHas('room', function($query) use ($roomId) {
+        $query->where('id', $roomId)
+              ->where('status', 'occupied');
+      })
+      ->where('status', 'checked_in')
+      ->with(['room'])
+      ->first();
+      if (!$booking) {
         return back()->with('error', 'No occupied room or active booking found!');
     }
         return view('admin.booking.checkout_result' ,compact('booking'));
@@ -119,18 +136,7 @@ class BookingController extends Controller
    
     return redirect()->route('bookinglist');
     }
-    ///sep 2 document
-      // Step 2: Document scanning
-      public function step2($booking_id)
-      {
  
-          return view('admin.booking.bookingstep2');
-      }
-///add document
-// public function add_document_index(){
-  
-//     return view('admin.booking.add_document');
-// }
 public function add_document_upload($booking_id){
 
     $booking = Booking::where('booking_id', $booking_id)->first();

@@ -1,7 +1,6 @@
 @extends('Admin.Layout.app')
 @section('title') Create Booking @endsection
 @section('dashboard')
-
 <main>
     <div class="container-fluid px-2 mt-2">
         @if(session('error'))
@@ -9,122 +8,94 @@
             {{ session('error') }}
         </div>
         @endif
-
+        <a href="{{ route('newbooking') }}" class="btn btn-secondary btn-lg">
+                    <i class="fas fa-times me-2"></i>Back
+                </a>
         <form action="{{ route('booking_stores') }}" method="POST">
             @csrf
-            <div class="row">
-                <!-- Guest Information Section -->
-                <div class="col-md-6">
-                    <div class="card mb-4">
-                        <div class="card-header bg-primary text-white">
-                            <h4 class="mb-0">Guest Information</h4>
+            
+            <div class="row mt-3 card mb-4 row">
+            <div class="card-header bg-warning text-dark">
+                    <h4 class="mb-0">Booking For Room No. - {{$room->room_no}}</h4>
+                </div>
+                <div class="card-body">
+                       <div class="row">
+                       <div class="col-md-3">
+                            <label class="form-label">Selected Room No.</label>
+                            <input type="text" class="form-control" value="{{$room->room_no}}" readonly id="selected_room_id">
+                            <input type="hidden" name="room_id" value="{{$room->id}}"  id="selected_room_id_no">
                         </div>
-                        <div class="card-body">
-                            <div class="row mb-3">
-                                <div class="col-md-6 mb-3 mb-md-0">
-                                    <label for="guestName" class="form-label">Full Name *</label>
-                                    <input type="text" class="form-control" id="guestName" name="name" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="guestEmail" class="form-label">Email Address</label>
-                                    <input type="email" class="form-control" id="guestEmail" name="email">
-                                </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Room Price (₹)</label>
+                                <input type="text" class="form-control" value="{{$room->price}}"  readonly id="selected_room_price">
                             </div>
-
-                            <div class="row mb-3">
-                                <div class="col-md-6 mb-3 mb-md-0">
-                                    <label for="guestPhone" class="form-label">Phone Number *</label>
-                                    <input type="tel" class="form-control" id="guestPhone" name="phone" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="guestAddress" class="form-label">Address</label>
-                                    <textarea class="form-control" id="guestAddress" name="address" rows="1"></textarea>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-md-6 mb-3 mb-md-0">
-                                    <label for="documentType" class="form-label">ID Proof Type *</label>
-                                    <select class="form-select" id="documentType" name="document_type" required>
-                                        <option value="" selected disabled>Select document type</option>
-                                        <option value="passport">Passport</option>
-                                        <option value="aadhar_card">Aadhaar Card</option>
-                                        <option value="driver_license">Driving License</option>
-                                        <option value="voter_id">Voter ID</option>
-                                        <option value="pan_card">PAN Card</option>
-                                        <option value="other">Other</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="documentNumber" class="form-label">ID Proof Number *</label>
-                                    <input type="text" class="form-control" id="documentNumber" name="document_number" required>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="purpose_of_visit" class="form-label">Purpose of Visit</label>
-                                    <input type="text" class="form-control" id="purpose_of_visit" name="purpose_of_visit">
-                               
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="expected_checkin_time" class="form-label">Expected Check-in Time</label>
-                                    <input type="time" class="form-control" id="expected_checkin_time" name="expected_checkin_time">
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="special_requests" class="form-label">Special Requests</label>
-                                <textarea class="form-control" id="special_requests" name="special_requests" rows="2"></textarea>
-                            </div>
+                       </div>
+                    </div>
+</div>
+            <!-- 2. Guest Information Section -->
+               
+            <div class="card mb-4 row">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Guest Information</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6 mb-3 mb-md-0">
+                            <label for="guestName" class="form-label">Full Name *</label>
+                            <input type="text" class="form-control" id="guestName" name="name" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="guestEmail" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="guestEmail" name="email">
                         </div>
                     </div>
-                </div>
 
-                <!-- Room Selection Section -->
-                <div class="col-md-6">
-                    <div class="card mb-4">
-                        <div class="card-header bg-primary text-white">
-                            <h4 class="mb-0">Room Selection</h4>
+                    <div class="row mb-3">
+                        <div class="col-md-6 mb-3 mb-md-0">
+                            <label for="guestPhone" class="form-label">Phone Number *</label>
+                            <input type="tel" class="form-control" id="guestPhone" name="phone" required>
                         </div>
-                        <div class="card-body">
-                            <div class="row mb-3">
-                            @foreach($availableRooms as $type => $rooms)
-                <div class="col-md-6 col-lg-4 col-sm-6 mb-md-2 mb-2">
-                    <div class="card h-100 border-primary">
-                        <div class="card-header bg-primary text-white p-2">
-                            <h5 class="card-title mb-0 text-center">{{ ucfirst($type)}}</h5>
-                        </div>
-                        <div class="card-body p-2 d-flex flex-wrap">
-                        @foreach($rooms as $room)
-                                <button type="button" 
-                                      class="btn btn-sm btn-success m-1"
-                                        onclick="selectRoom({{ $room->id }},{{ $room->price }},'{{ $room->room_no }}')"
-                         data-room-id="{{ $room->id }}">
-                             {{ $room->room_no }}
-                             <input type=""  class="form-control" hidden value=" {{ $room->id}}" name="room_id" readonly id="selected_room_id_no" >
-                                </button>
-                            @endforeach
+                        <div class="col-md-6">
+                            <label for="guestAddress" class="form-label">Address</label>
+                            <textarea class="form-control" id="guestAddress" name="address" rows="1"></textarea>
                         </div>
                     </div>
-                </div>
-            @endforeach
-                            </div>
 
-                            <div class="row">
-                                <div class="col-md-4">   
-                                    <label class="form-label">Room No.</label>
-                                    <input type="text" class="form-control"  readonly id="selected_room_id">
-                                    <input type="hidden" name="" id="selected_room_id_no">
-                                </div>
-                                
-                            </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6 mb-3 mb-md-0">
+                            <label for="documentType" class="form-label">ID Proof Type *</label>
+                            <select class="form-select" id="documentType" name="document_type" required>
+                                <option value="" selected disabled>Select document type</option>
+                                @foreach(App\Models\Booking::DOCUMENT_TYPES as $key => $type)
+                                        <option value="{{ $key }}">{{ $type }}</option>
+                                    @endforeach
+                            </select>
                         </div>
+                        <div class="col-md-6">
+                            <label for="documentNumber" class="form-label">ID Proof Number *</label>
+                            <input type="text" class="form-control" id="documentNumber" name="document_number" required>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3" hidden>
+                        <div class="col-md-6">
+                            <label for="purpose_of_visit" class="form-label">Purpose of Visit</label>
+                            <input type="text" class="form-control" id="purpose_of_visit" name="purpose_of_visit">
+                        </div>
+                        <div class="col-md-6" hidden>
+                            <label for="expected_checkin_time" class="form-label">Expected Check-in Time</label>
+                            <input type="time" class="form-control" id="expected_checkin_time" name="expected_checkin_time">
+                        </div>
+                    </div>
+
+                    <div class="mb-3" hidden>
+                        <label for="special_requests" class="form-label">Special Requests</label>
+                        <textarea class="form-control" id="special_requests" name="special_requests" rows="2"></textarea>
                     </div>
                 </div>
             </div>
 
-            <!-- Stay Details Section -->
+            <!-- 3. Stay Details Section -->
             <div class="card mb-4">
                 <div class="card-header bg-primary text-white">
                     <h4 class="mb-0">Stay Details</h4>
@@ -145,12 +116,6 @@
                         </div>
                         <div class="col-md-2">
                             <div class="mb-3">
-                                <label class="form-label">Room Price (₹)</label>
-                                <input type="text" readonly class="form-control bg-light" id="selected_room_price">  
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="mb-3">
                                 <label class="form-label">Number of Nights</label>
                                 <input type="text" class="form-control" name="no_of_nights" id="nights_count" readonly>
                             </div>
@@ -161,23 +126,22 @@
                                 <input type="number" class="form-control" name="no_of_adults" id="no_of_adults" min="0" value="0" required>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="row">
                         <div class="col-md-2">
                             <div class="mb-3">
                                 <label for="no_of_children" class="form-label">Children</label>
                                 <input type="number" class="form-control" name="no_of_children" id="no_of_children" min="0" value="0">
                             </div>
                         </div>
-                        <div class="col-md-2">
+                    </div>
+                    <div class="col-md-2">
                             <div class="mb-3">
                                 <label for="total_on_guest" class="form-label">Total Guest *</label>
                                 <input type="number" class="form-control" name="total_on_guest" id="no_of_adults" min="1" value="1" required>
                             </div>
                         </div>
+                    <div class="row">
                         <div class="col-md-8">
-                            <div class="form-check mt-4">
+                            <div class="form-check mt-2">
                                 <input class="form-check-input" type="checkbox" id="is_company_booking" name="is_company_booking">
                                 <label class="form-check-label" for="is_company_booking">
                                     Corporate Booking
@@ -202,7 +166,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label for="company_website" class="form-label">Company Address</label>
+                                <label for="company_website" class="form-label">Company Website</label>
                                 <input type="text" class="form-control" id="company_website" name="company_website">
                             </div>
                         </div>
@@ -216,7 +180,7 @@
                 </div>
             </div>
 
-            <!-- Payment Section -->
+            <!-- 4. Payment Section -->
             <div class="card mb-4">
                 <div class="card-header bg-primary text-white">
                     <h4 class="mb-0">Payment Details</h4>
@@ -231,7 +195,7 @@
                             <label for="discount" class="form-label">Discount</label>
                             <div class="input-group">
                                 <input type="number" class="form-control" id="discount" name="discount" min="0" value="0">
-                                <span class="input-group-text">%</span>
+                                <span class="input-group-text">(₹)</span>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -281,7 +245,7 @@
                 <button type="submit" class="btn btn-primary btn-lg me-md-3">
                     <i class="fas fa-save me-2"></i> Create Booking
                 </button>
-                <a href="{{ route('allroom') }}" class="btn btn-secondary btn-lg">
+                <a href="{{ route('newbooking') }}" class="btn btn-secondary btn-lg">
                     <i class="fas fa-times me-2"></i> Cancel
                 </a>
             </div>
@@ -291,25 +255,7 @@
 
 @push('scripts')
 <script>
-    // Room Selection
-    function selectRoom(roomId, roomPrice, roomNo,) {
-        // Update visible fields
-        document.getElementById('selected_room_id').value = roomNo;
-        document.getElementById('selected_room_id_no').value = roomId;
-        document.getElementById('selected_room_price').value = roomPrice;
-        
-        // Visual feedback
-        document.querySelectorAll('.room-pill').forEach(el => {
-            el.classList.remove('btn-primary');
-            el.classList.add('btn-outline-primary');
-        });
-        event.target.classList.remove('btn-outline-primary');
-        event.target.classList.add('btn-primary');
-        
-        // Recalculate amounts
         calculateAmounts();
-    }
-
     // Date Calculations
     document.addEventListener('DOMContentLoaded', function() {
         const checkinDate = document.getElementById('checkin_date');
@@ -357,21 +303,12 @@
 
     // Payment Calculations
     function calculateAmounts() {
-        const checkinDate = new Date(document.getElementById('checkin_date').value);
-        const checkoutDate = new Date(document.getElementById('checkout_date').value);
         const roomPrice = parseFloat(document.getElementById('selected_room_price').value) || 0;
+        const nightsCount = parseInt(document.getElementById('nights_count').value) || 0;
         const discount = parseFloat(document.getElementById('discount').value) || 0;
         const advance = parseFloat(document.getElementById('advance').value) || 0;
         const extraCharges = parseFloat(document.getElementById('extra_charges').value) || 0;
         
-        // Calculate number of nights
-        let nightsCount = 0;
-        if (checkinDate && checkoutDate && checkoutDate > checkinDate) {
-            const timeDiff = checkoutDate - checkinDate;
-            nightsCount = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-        }
-        document.getElementById('nights_count').value = nightsCount;
-
         // Calculate subtotal
         const subtotal = roomPrice * nightsCount;
         document.getElementById('subtotal').value = subtotal.toFixed(2);
@@ -381,7 +318,7 @@
         document.getElementById('tax_amount').value = taxAmount.toFixed(2);
         
         // Calculate discount amount
-        const discountAmount = subtotal * (discount / 100);
+        const discountAmount = discount;
         
         // Calculate net payable
         const netPayable = subtotal + taxAmount + extraCharges - discountAmount - advance;

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('booking_id')->unique();
             
             // Guest information
-            $table->string('name');
+            $table->string('name')->nullable();;
             $table->string('email')->nullable();
             $table->string('phone');
             $table->text('address')->nullable();
