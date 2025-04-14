@@ -248,11 +248,7 @@ System Administration
             });
         });
 
-        // Booking button functionality
-        document.querySelector('.booking-btn').addEventListener('click', function() {
-            alert('Ready To New Booking!');
-            // Add your booking functionality here
-        });
+       
     </script>
 @endpush
                 <footer class="py-4 bg-light mt-auto">
