@@ -5,6 +5,7 @@ use App\Http\Controllers\RoomsController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\DashboardsController;
 use App\Http\Controllers\UsersController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
