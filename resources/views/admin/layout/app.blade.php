@@ -217,7 +217,7 @@ System Administration
             <div class="booking-btn">
                 <i class="fas fa-plus"></i>
             </div>
-            <span class="booking-label">Booking</span>
+            
             </a>
         </div>
         <a href="{{Route('allroom')}}" class="nav-item  {{ request()->routeIs('allroom') ? 'active' : '' }}">
