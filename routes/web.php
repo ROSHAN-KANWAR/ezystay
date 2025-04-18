@@ -44,6 +44,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin-dashboard/show-room',[RoomsController::class ,'index'])->name('allroom');
     //room invemtry routes
     /////////////////
+    //route for rooms checkout filter
+    Route::get('/admin-dashboard/checkout-room',[DashboardsController::class ,'checkout_room'])->name('checkout_room');
+  
+    //
     Route::get('/admin-dashboard/documents/print/{booking}', [BookingController::class, 'printDocuments'])->name('documentsprint');
     //document upload feature
     //Route::get('/admin-dashboard/add-document',[BookingController::class ,'add_document_index'])->name('add_document');
@@ -56,9 +60,9 @@ Route::middleware(['auth'])->group(function () {
 });
 //register and login urls
 
-Route::get('/register-form',[UsersController::class ,'Form_register'])->name('register_form');
+//Route::get('/register-form',[UsersController::class ,'Form_register'])->name('register_form');
 
-Route::post('/register-form',[UsersController::class ,'Store_register'])->name('store_register');
+//Route::post('/register-form',[UsersController::class ,'Store_register'])->name('store_register');
 
 Route::post('/login-form',[UsersController::class ,'Login_data'])->name('login_data');
 

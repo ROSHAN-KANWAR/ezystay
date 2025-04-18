@@ -4,7 +4,6 @@ System Administration
 @endsection
 @section('dashboard')
 
-<main>
                     <div class="container-fluid">
                         <h4 class="mt-4">Dashboards</h1>
 
@@ -40,8 +39,10 @@ System Administration
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <h6 class="text-uppercase text-muted mb-2">Today's Check-outs</h6>
-                                <h6 class="mb-1">12</h2>
-                                <p class="mb-0 text-muted">Active Bookings: {{$room->where('status','occupied')->count()}}</p>
+                                <h6 class="mb-1">{{$today_checkout}}</h2>
+                                <p class="mb-0 text-muted">  
+                                    <a href="{{route('checkout_room')}}">Show Room`s</a>    
+                                </p>
                             </div>
                             <div class="bg-warning bg-opacity-10 p-3 rounded">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-calendar-check text-warning" viewBox="0 0 16 16">
@@ -98,17 +99,16 @@ System Administration
                         <thead class="table-light">
                             <tr>
                                 <th>#</th>
-                                <th>Booking ID</th>
                                 <th>Guest Name</th>
                                 <th>Guest Phone</th>
                                 <th>Room Type</th>
                                 <th>Room No.</th>
                                 <th>Remain-Amount</th>
                                 <th>Check-Out</th>
+                                <th>Office</th>
                                 <th>Document</th>
                                 <th>Mode</th>
-                                <th>Mode</th>
-                                <th>Status</th>
+                                <th>Payment</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -117,13 +117,12 @@ System Administration
                              @foreach($bookedrooms as $booked)
                             <tr>
                                 <td>{{$booked->id}}</td>
-                                <td>{{$booked->booking_id}}</td>
                                 <td>{{ucfirst($booked->name)}}</td>
                                 <td>{{ucfirst($booked->phone)}}</td>
                                 <td>{{ucfirst($booked->room->type)}}</td>
                                 <td>{{$booked->room->room_no}}</td>
                                 <td>{{$booked->net_amount}}</td>
-                                <td>{{$booked->check_out_date}}</td>
+                                <td>{{$booked->check_out_date->format('d-m-y')}}</td>
                                 <td>
                                 @if($booked->document_verified === 1)
                                 <span class="badge bg-danger text-white">
@@ -180,6 +179,5 @@ System Administration
                      
 
                     </div>
-                </main>
-        
+             
    @endsection

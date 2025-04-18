@@ -9,20 +9,20 @@ use Illuminate\Support\Facades\Auth;
 class UsersController extends Controller
 {
    
-  public function Form_register(){
-    return view('Register');
-  }
+  // public function Form_register(){
+  //   return view('Register');
+  // }
 
-  public function Store_register(Request $request){
+  // public function Store_register(Request $request){
   
-   User::create([
-    'name'=>$request['name'],
+  //  User::create([
+  //   'name'=>$request['name'],
     
-    'email'=>$request['email'],
-    'password'=>Hash::make($request['password']),
-   ]);
-    return view('Register');
-  }
+  //   'email'=>$request['email'],
+  //   'password'=>Hash::make($request['password']),
+  //  ]);
+  //   return view('Register');
+  // }
 
 public function Login_data(Request $request){
     $validated = $request->validate([
@@ -30,7 +30,7 @@ public function Login_data(Request $request){
      'password'=>'required',
     ]);
     if(Auth::attempt($validated)){
-     return redirect()->route('dashboard');
+     return redirect()->route('newbooking');
     }
     return redirect()->back()->with('error','Please Check Your Email & Password');
  }

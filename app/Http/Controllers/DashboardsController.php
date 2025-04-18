@@ -16,8 +16,8 @@ class DashboardsController extends Controller
     public function dashboard(){
         
         $bookedrooms = Booking::with('room')->orderBy('id', 'desc')->get();
-       
-         $todayamount = Booking::whereBetween('created_at',
+       $today_checkout = Booking::whereDate('check_out_date' ,today())->count();
+        $todayamount = Booking::whereBetween('created_at',
          [
             now()->startOfWeek(),
             now()->endOfWeek()
@@ -25,7 +25,12 @@ class DashboardsController extends Controller
          ->sum('subtotal');
  
         $room = Room::all();
-        return view('admin.dashboard',compact('bookedrooms','room' ,'todayamount'));
+        return view('admin.dashboard',compact('bookedrooms','room' ,'todayamount' ,'today_checkout'));
+      
+    }
+    //Show Room`s - checkout rom controller
+    public function checkout_room(){
+        return view('admin.checkout_room');
       
     }
 }
