@@ -46,7 +46,8 @@ Route::middleware(['auth'])->group(function () {
     /////////////////
     //route for rooms checkout filter
     Route::get('/admin-dashboard/checkout-room',[DashboardsController::class ,'checkout_room'])->name('checkout_room');
-  
+  // routes/web.php
+Route::get('/admin-dashboard/rooms/filter', [DashboardsController::class, 'checkout_filter'])->name('rooms_filter');
     //
     Route::get('/admin-dashboard/documents/print/{booking}', [BookingController::class, 'printDocuments'])->name('documentsprint');
     //document upload feature

@@ -38,11 +38,11 @@ System Administration
                 </tr>
                 <tr>
                     <th>Check-In Date:</th>
-                    <td>{{ $booking->check_in_date }}</td>
+                    <td>{{ $booking->check_in_date->format('d-m-y') }}</td>
                 </tr>
                 <tr>
                     <th>Check-Out Date:</th>
-                    <td>{{ $booking->check_out_date}}</td>
+                    <td>{{ $booking->check_out_date->format('d-m-y') }}</td>
                 </tr>
                 <tr>
                     <th>Total Amount:</th>

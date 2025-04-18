@@ -33,4 +33,7 @@ class DashboardsController extends Controller
         return view('admin.checkout_room');
       
     }
+    public function checkout_filter(Request $re ){
+     
+    }
 }

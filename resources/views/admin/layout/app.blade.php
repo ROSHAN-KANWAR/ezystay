@@ -140,7 +140,7 @@ System Administration
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Add Document
                             </a> -->
-                            <a class="nav-link {{ request()->routeIs('checkot_booking') ? 'active bg-warning' : '' }}" href="{{Route('checkot_booking')}}">
+                            <a class="nav-link {{ request()->routeIs('checkout_room') ? 'active bg-warning' : '' }}" href="{{Route('checkout_room')}}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                Check-out
                             </a>
@@ -207,7 +207,7 @@ System Administration
             <i class="fas fa-home"></i>
             <span>Home</span>
         </a>
-        <a href="{{Route('checkot_booking')}}" class="nav-item {{ request()->routeIs('checkot_booking') ? 'active' : '' }}">
+        <a href="{{Route('checkout_room')}}" class="nav-item {{ request()->routeIs('checkout_room') ? 'active' : '' }}">
             <i class="fas fa-sign-out-alt"></i>
             <span>Check Out</span>
         </a>

@@ -30,7 +30,6 @@ System Administration
                         <thead class="table-light">
                             <tr>
                                 <th>#</th>
-                                <th>Booking ID</th>
                                 <th>Guest Name</th>
                                 <th>Guest Phone</th>
                                 <th>Room Type</th>
@@ -49,13 +48,12 @@ System Administration
                              @foreach($bookedrooms as $booked)
                             <tr>
                                 <td>{{$booked->id}}</td>
-                                <td>{{$booked->booking_id}}</td>
                                 <td>{{ucfirst($booked->name)}}</td>
                                 <td>{{ucfirst($booked->phone)}}</td>
                                 <td>{{ucfirst($booked->room->type)}}</td>
                                 <td>{{$booked->room->room_no}}</td>
                                 <td>{{$booked->net_amount}}</td>
-                                <td>{{$booked->check_out_date}}</td>
+                                <td>{{$booked->check_out_date->format('d-m-y')}}</td>
                                 <td>
                                 @if($booked->document_verified === 1)
                                 <span class="badge bg-danger text-white">
