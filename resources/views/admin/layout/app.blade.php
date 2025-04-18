@@ -57,6 +57,9 @@ System Administration
         }
 
         /* Center Booking Button */
+        .booking-btn.active{
+            background: red;
+        }
         .booking-btn {
             position: relative;
             bottom: 20px;
@@ -213,8 +216,8 @@ System Administration
         </a>
         <div class="nav-item">
      
-        <a href="{{Route('newbooking')}}" class="nav-item {{ request()->routeIs('newbooking') ? 'active' : '' }}">
-            <div class="booking-btn">
+        <a href="{{Route('newbooking')}}" class="nav-item">
+            <div class="booking-btn  {{ request()->routeIs('newbooking') ? 'active' : '' }}">
                 <i class="fas fa-plus"></i>
             </div>
             
